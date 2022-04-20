@@ -9,9 +9,16 @@ public:
 
    LinkedList();
    ~LinkedList();
+   bool add();
+   bool del();
+   bool get(int i);
+   bool modify();
+   void clear();
 
 private:
    Node* head;
+
+   Node* tail;
 };
 
 #endif // ASSIGN2_LINKEDLIST_H
