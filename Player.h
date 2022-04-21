@@ -9,18 +9,22 @@
 
 class Player{
     public:
-    Player();
+    Player(std::string playerName);
     ~Player();
 
-    void setScore();
-    void setName();
+    void setScore(int score);
+    void setName(std::string playerName);
     std::string getName();
-    int getscore;
+    int getscore();
+
+    void setPassTime(int passTime);
+    int getpassTime();
     
     private:
     std::string name;
     int score;
     Hand* hand;
+    int passTime;
     
 
 };

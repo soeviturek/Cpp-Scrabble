@@ -12,6 +12,7 @@ public:
    bool add();
    bool del();
    bool get(int i);
+   bool contains(Tile tile);
    bool modify();
    void clear();
 
