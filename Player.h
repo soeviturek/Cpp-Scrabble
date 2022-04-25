@@ -11,11 +11,16 @@ class Player{
     public:
     Player(std::string playerName);
     ~Player();
+    //player gameplay
+    void placeTile(Tile* tile, int row, int col);
+    void replaceTile(Tile* tile);
+    void pass();
 
+    //player settings
     void setScore(int score);
     void setName(std::string playerName);
     std::string getName();
-    int getscore();
+    int getScore();
 
     void setPassTime(int passTime);
     int getpassTime();

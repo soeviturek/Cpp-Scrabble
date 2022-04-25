@@ -13,8 +13,8 @@ class Hand{
     Hand();
     ~Hand();
 
-    bool addTile();
-    bool delTile();
+    bool addTile(Tile* tile);
+    bool delTile(Tile* tile);
     private:
     LinkedList* hand;
 };
