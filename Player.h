@@ -15,12 +15,16 @@ class Player{
     void placeTile(Tile* tile, int row, int col);
     void replaceTile(Tile* tile);
     void pass();
+    std::string printHand();
 
     //player settings
     void setScore(int score);
     void setName(std::string playerName);
+    void setHand(Hand* hand);
+    Hand* getHand();
     std::string getName();
     int getScore();
+    
 
     void setPassTime(int passTime);
     int getpassTime();

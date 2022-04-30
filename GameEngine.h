@@ -13,6 +13,7 @@ class GameEngine{
     ~GameEngine();
 
     void newGame(); //initiate tilebag, board
+    void setupGame();
 
     //game starts, each player draws 7 tiles to his hand.. those tiles are also removed from tile
 
@@ -42,6 +43,7 @@ class GameEngine{
     bool checkBagEmpyty(); //check if the tile bag is empty
     bool checkBingo(); //add bonus 50 points, should be called after placement
     bool checkEnd();//1. the bag is empty and 1. a player's hand is empty or 2. a player has passed his turn twice
+    int convertLetterToNum(char letter);
 };
 
 

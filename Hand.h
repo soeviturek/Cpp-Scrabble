@@ -7,6 +7,7 @@
 #define ASSIGN2_HAND_H
 #include "Tile.h"
 #include "LinkedList.h"
+#define MAX_HAND_SIZE 7
 
 class Hand{
     public:

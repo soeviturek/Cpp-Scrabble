@@ -3,7 +3,6 @@
 
 LinkedList::LinkedList() {
    head = nullptr;
-   head->next = nullptr;
    tail = nullptr;
 }
 
@@ -14,13 +13,13 @@ LinkedList::~LinkedList() {
 LinkedList::LinkedList(LinkedList& other){
 
 }
-bool LinkedList::add_front(Tile* tile){
+bool LinkedList::addFront(Tile* tile){
    Node* node = new Node(tile, head);
    head = node;
    tail = head;
    return true;
 }
-bool LinkedList::add_back(Tile* tile){
+bool LinkedList::addBack(Tile* tile){
    Node* node = new Node(tile,nullptr);
     if(head == nullptr){
         head = node;
@@ -35,6 +34,7 @@ bool LinkedList::add_back(Tile* tile){
 }
 
 bool LinkedList::remove(int index){
+   bool check = false;
    if(index >= 0 && index < size){
         if(head != nullptr){
             int counter = 0;
@@ -56,19 +56,19 @@ bool LinkedList::remove(int index){
 
             delete current->tile;
             delete current;
+            check = true;
         }
     }
+    return check;
 }
-bool LinkedList::remove_front(){
+bool LinkedList::removeFront(){
    bool check = true;
    if(head != nullptr){
         Node* node = head;
         head = head->next;
-
         delete node->tile;
         delete node;
-    }
-    else{
+   }else{
        check = false;
     }
    //  else{
@@ -76,7 +76,7 @@ bool LinkedList::remove_front(){
    //  }
    return check;
 }
-bool LinkedList::remove_back(){
+bool LinkedList::removeBack(){
    bool check = false;
    if(head != nullptr){
         Node* current = head;
@@ -125,12 +125,22 @@ bool LinkedList::contains(Tile* tile){
    }
    return check;
 }
+int LinkedList::getIndex(Tile* tile){
+   int index = -1;
+   for(int i = 0; i < size; ++i){
+      Tile* nodeTile = get(i);
+      if(nodeTile->letter == tile->letter && nodeTile->value == tile->value){
+         index = i;
+      }
+   }
+   return index;
+}
 bool LinkedList::modify(){
-   
+   return true;
 }
 void LinkedList::clear(){
    while(head != nullptr){
-      remove_front();
+      removeFront();
    }
 }
 

@@ -5,12 +5,14 @@
 #ifndef ASSIGN2_BOARD_H
 #define ASSIGN2_BOARD_H
 #include <vector>
+#include <string>
+#define DEFAULT_DIMENSION 15
 
 class Board{
     public:
-    Board(int row, int col);
+    Board();
     ~Board();
-    Board getBoard();
+    std::string printBoard();
     char getSquare(int row, int col);
 
     private:

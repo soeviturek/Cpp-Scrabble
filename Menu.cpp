@@ -1,11 +1,15 @@
 #include "Menu.h"
 
 Menu::Menu(){
-    this->gameEngine = new GameEngine();
+    gameEngine = new GameEngine();
+}
+Menu::~Menu(){
+    //todo
 }
 void Menu::run(){
     int input = 0;
     do{
+        printMenu();
         std::cin >> input;
         if(input == NEW_GAME){
             gameEngine->newGame();
@@ -45,6 +49,17 @@ void Menu::run(){
     }while(input != QUIT);
     
 }
+void Menu::publicPrintMenu(){
+    printMenu();
+}
+
 void Menu::printMenu(){
+    std::cout << "Menu" << std::endl;
+    std::cout << "----" << std::endl;
+    std::cout << "1. New Game" << std::endl;
+    std::cout << "2. Load Game" << std::endl;
+    std::cout << "3. Credits (Show student information)" << std::endl;
+    std::cout << "4. Quit" << std::endl;
+
 
 }

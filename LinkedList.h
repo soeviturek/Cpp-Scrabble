@@ -11,13 +11,14 @@ public:
    ~LinkedList();
    LinkedList(LinkedList& other);
    
-   bool add_back(Tile* tile);
-   bool add_front(Tile* tile);
+   bool addBack(Tile* tile);
+   bool addFront(Tile* tile);
    bool remove(int index);
-   bool remove_front();
-   bool remove_back();
+   bool removeFront();
+   bool removeBack();
    Tile* get(int index);
    bool contains(Tile* tile);
+   int getIndex(Tile* tile);
    bool modify();
    void clear();
    int getSize();
