@@ -4,21 +4,41 @@ Menu::Menu(){
     gameEngine = new GameEngine();
 }
 Menu::~Menu(){
-    //todo
+    delete gameEngine;
 }
 void Menu::run(){
+    std::cout << "Welcome to Scrabble!\n-------------------" << std::endl;
     int input = 0;
     do{
         printMenu();
+        std::cout << "> ";
         std::cin >> input;
-        if(input == NEW_GAME){
+        if(!std::cin.good()){
+            std::cout<<"Invalid Input!"<<std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        } 
+        else if(input == NEW_GAME){
             gameEngine->newGame();
             std::cout<< "Starting a New Name" << std::endl;
             //add 2 players
             //player name should only be letters
-
+            std::string playerName = "";
+            std::cout<< "Enter name for player 1:\n> ";
+            std::cin >> playerName;
+            //check name
+            bool check = gameEngine->addPlayer(playerName);
+            while(!check){
+                std::cout<< "Enter a Valid Name!\n> ";
+                std::cin >> playerName;
+                check = gameEngine->addPlayer(playerName);
+            }
+            std::cout<< "Enter name for player 2:\n> ";
+            gameEngine->addPlayer(playerName);
             //play
             std::cout << "Let's Play!" << std::endl;
+            gameEngine->setupGame();
+            // gameEngine->startGame();
         }
         else if(input == LOAD_GAME){
             std::cout<< "Enter the filename from which load a game" << std::endl;
@@ -45,12 +65,10 @@ void Menu::run(){
         }
         else{
             //invalid input
+            std::cout<<"Invalid Input!"<<std::endl;
         }
     }while(input != QUIT);
     
-}
-void Menu::publicPrintMenu(){
-    printMenu();
 }
 
 void Menu::printMenu(){

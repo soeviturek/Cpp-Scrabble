@@ -3,31 +3,54 @@
 */
 #ifndef ASSIGN2_ENGINE_H
 #define ASSIGN2_ENGINE_H
+#define MAX_PLAYERS 2
 #include "Player.h"
 #include "TileBag.h"
 #include "Board.h"
+#include <vector>
 
 class GameEngine{
     public:
     GameEngine();
     ~GameEngine();
 
-    void newGame(); //initiate tilebag, board
-    void setupGame();
+    /*starts game, while not end, take turn ask each player to:
+    *show current player and status
+    *check if player wants to: 
+    1.place tile:
+    2.replace tile:
+    3.pass:
+    4.save game:
+    5.load game:
 
-    //game starts, each player draws 7 tiles to his hand.. those tiles are also removed from tile
 
 
-    void addPlayer(std::string playerName);
+    */
+    void newGame(); 
+    void setupGame();//initiate tilebag, board, players' hands
+
+    bool addPlayer(std::string playerName);
     void setPlayerScore(Player* player, int score);
     void setPlayerName(Player* player, std::string name);
-
-    void placeTile(); //place a tile
-    int calculateScore(); //calculate the total score after placing tiles
-    void replaceTile(); //replace a tile, check if the tile is in hand, check if there is any in the bag
-    void drawCard(); //draw a card
     
-    std::string displayBoard(); //returns a string the board to be printed
+    /* Gameplay functions */
+    void placeTile(Tile* tile, int row, int col); //place a tile at ?,? coordinates
+
+    //calculate total scores after placing tiles
+    //tiles placed are kept in the vector, it will check horizontally and vertically
+    //it should first gets what rows and cols, without repitition need to be checked
+    //then it checks the rows and cols, it stops when hit the boundary of board
+    //or hits an empty square.
+    int calculateScore(std::vector<Tile*> tiles); //calculate the total score after placing tiles
+    void checkVertical(int col);
+    void checkHorizontal(int row);
+    
+
+
+    void replaceTile(Tile* tile); //replace a tile, check if the tile is in hand, check if there is any in the bag
+    Tile* drawTile(); //get a copy of tile from tileBag, add to hand, remove it from tileBag
+    
+    std::string displayBoard(); //returns a string the board status
 
     void saveGame(std::string fileName); //saves the current game, after saving game continues
     bool loadGame(std::string fileName);//check file exists, check format
@@ -35,15 +58,16 @@ class GameEngine{
     void quit(); //
 
     private:
-    Player* player1;
-    Player* player2;
+    std::vector<Player*> players;
     TileBag* tileBag;
 
-    bool playerNameCheck(std::string name); //check if the name only contains letters
+    bool checkPlayerNameValidity(std::string name); //check if the name only contains letters
     bool checkBagEmpyty(); //check if the tile bag is empty
+    bool checkPlayerHandEmpty(); //check if player's hand is empty
+    bool checkPlayerPassStatus(); //check if a player has passed his turn twice
     bool checkBingo(); //add bonus 50 points, should be called after placement
     bool checkEnd();//1. the bag is empty and 1. a player's hand is empty or 2. a player has passed his turn twice
-    int convertLetterToNum(char letter);
+    int convertLetterToNum(char letter); //convert letter to number, used to convert input letter to number coordinates
 };
 
 

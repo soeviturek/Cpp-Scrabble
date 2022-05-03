@@ -1,21 +1,25 @@
 #include "TileBag.h"
+#include <iostream>
 
 TileBag::TileBag(){
+   tileBag = new LinkedList();
     readTileBagFromFile();
 }
 
 void TileBag::readTileBagFromFile(){
     std::ifstream file(PATH);
+    std::cout << "start reading in tiles\n";
     while(!file.eof() && numberOfTiles < MAX_TILE_BAG_SIZE) {
       Letter letter = 'A';
       Value value = 1;
       file >> letter;
-      file >> value;    
+      file >> value;
+      std::cout<<"Read in:" << letter <<"-"<<value << "\n";   
       if (!file.eof()) {
          Tile* tile = new Tile();
          tile->letter = letter;
          tile->value = value;
-
+         std::cout<<"adding: " << letter <<"-"<<value<<" to tile bag\n";
          tileBag->addBack(tile);
 
          numberOfTiles++;
@@ -44,9 +48,8 @@ Hand* TileBag::initiateHand(){
    Hand* hand = new Hand();
 
    // Randomise the players hand!!!!
-   
    int i = 0;
-   while (i < MAX_HAND_SIZE) {         // && deck->get(randIndex) != nullptr
+   while (i < MAX_HAND_SIZE) {// && deck->get(randIndex) != nullptr
       // Pick a random card from the deck!!!!
       Tile* tile = getRandomTile();
       if(tile != nullptr){

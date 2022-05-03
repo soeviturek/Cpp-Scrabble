@@ -1,6 +1,6 @@
 
 #include "LinkedList.h"
-
+#include <iostream>
 LinkedList::LinkedList() {
    head = nullptr;
    tail = nullptr;
@@ -23,6 +23,7 @@ bool LinkedList::addBack(Tile* tile){
    Node* node = new Node(tile,nullptr);
     if(head == nullptr){
         head = node;
+        tail = node;
     }else{
         Node* current = head;
         while(current->next != nullptr){

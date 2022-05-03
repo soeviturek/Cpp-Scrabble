@@ -17,7 +17,6 @@ public:
    ~Menu();
    
    void run();
-   void publicPrintMenu();
 private:
     GameEngine* gameEngine;
     void printMenu();

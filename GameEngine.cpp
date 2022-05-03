@@ -15,8 +15,14 @@ void GameEngine::newGame(){
     //todo
 }
 
-void GameEngine::addPlayer(std::string playerName){
-    //todo
+bool GameEngine::addPlayer(std::string playerName){
+    bool check = false;
+    if(checkPlayerNameValidity(playerName) && players.size() != MAX_PLAYERS){
+        Player* player = new Player(playerName);
+        players.push_back(player);
+        check = true;
+    }
+    return check;
 }
 void GameEngine::setPlayerScore(Player* player, int score){
     //todo
@@ -63,4 +69,11 @@ void GameEngine::quit(){
 int GameEngine::convertLetterToNum(char letter){
     int n = letter;
     return n - 97;
+}
+bool GameEngine::checkPlayerNameValidity(std::string name){
+    bool check = false;
+    if(name.compare("1") == 0){
+        check = true;
+    }
+    return check;
 }
