@@ -17,9 +17,21 @@ class GameEngine{
     /*starts game, while not end, take turn ask each player to:
     *show current player and status
     *check if player wants to: 
-    1.place tile:
-    2.replace tile:
-    3.pass:
+    1.place tile: Words are played either vertically or horizontally. Diagonal word play is not permitted. 
+    The letters placed must form complete words. Anytime two or more letters touch, they must form valid, legal words.
+    All letters placed need to be connected to another already on board.
+    Keep record of the  tiles played and the position they are placed
+    Check if the location already has a tile placed
+    Cehck if the first letter placed is connected to a tile
+    Check if tiles placed are on the same row/column
+
+    Place tile, update the board
+    Calculate score, when calculating, iterate through every tile placed, check its horizontal and vertical direction for words, add up their values
+    2.replace tile: replace a single tile in this game
+    check if that tile exists
+    check if there is a enough tile in the tile bag
+    swap the first tile in the hand if multiple exist
+    3.pass: do nothing
     4.save game:
     5.load game:
 
