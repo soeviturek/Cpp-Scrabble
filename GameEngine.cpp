@@ -9,6 +9,7 @@ GameEngine::~GameEngine(){
 
 void GameEngine::setupGame(){
     tileBag = new TileBag();
+    //hand
 }
 
 void GameEngine::newGame(){
@@ -31,18 +32,19 @@ void GameEngine::setPlayerName(Player* player, std::string name){
     //todo
 }
 
-void GameEngine::placeTile(){
+void GameEngine::placeTile(Tile* tile, int row, int col){
     //todo
 }
-int GameEngine::calculateScore(){
+int GameEngine::calculateScore(std::vector<Tile*> tiles){
     //todo
     return 0;
 }
-void GameEngine::replaceTile(){
+void GameEngine::replaceTile(Tile* tile){
     //todo
 }
-void GameEngine::drawCard(){
+Tile* GameEngine::drawTile(){
     //todo
+    return nullptr;
 }
 
 std::string GameEngine::displayBoard(){

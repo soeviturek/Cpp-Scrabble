@@ -15,7 +15,7 @@ class Board{
     ~Board();
     std::string printBoard();
     char getSquare(int row, int col);
-
+    
     private:
     std::vector<std::vector<Tile*>> board;
     int row;

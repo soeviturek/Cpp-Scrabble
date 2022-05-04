@@ -7,6 +7,7 @@
 #define ASSIGN2_HAND_H
 #include "Tile.h"
 #include "LinkedList.h"
+#include <string>
 #define MAX_HAND_SIZE 7
 
 class Hand{
@@ -16,8 +17,11 @@ class Hand{
 
     bool addTile(Tile* tile);
     bool delTile(Tile* tile);
+    int getNumOfTiles();
+    std::string printHand();
     private:
     LinkedList* hand;
+    int numOfTiles;
 };
 
 #endif // ASSIGN2_HAND_H

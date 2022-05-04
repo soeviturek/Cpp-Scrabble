@@ -80,6 +80,8 @@ class GameEngine{
     bool checkBingo(); //add bonus 50 points, should be called after placement
     bool checkEnd();//1. the bag is empty and 1. a player's hand is empty or 2. a player has passed his turn twice
     int convertLetterToNum(char letter); //convert letter to number, used to convert input letter to number coordinates
+    //place tile at A1 A->0
+    //vector[int][int]
 };
 
 

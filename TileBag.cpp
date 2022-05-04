@@ -1,25 +1,27 @@
 #include "TileBag.h"
 #include <iostream>
 
+const std::string TileBag::PATH = "ScrabbleTiles.txt";
+
 TileBag::TileBag(){
    tileBag = new LinkedList();
     readTileBagFromFile();
 }
-
+TileBag::~TileBag(){
+   tileBag->clear();
+   delete tileBag;
+}
 void TileBag::readTileBagFromFile(){
     std::ifstream file(PATH);
-    std::cout << "start reading in tiles\n";
+    Letter letter = 'A';
+    Value value = 1;
     while(!file.eof() && numberOfTiles < MAX_TILE_BAG_SIZE) {
-      Letter letter = 'A';
-      Value value = 1;
       file >> letter;
       file >> value;
-      std::cout<<"Read in:" << letter <<"-"<<value << "\n";   
       if (!file.eof()) {
          Tile* tile = new Tile();
          tile->letter = letter;
          tile->value = value;
-         std::cout<<"adding: " << letter <<"-"<<value<<" to tile bag\n";
          tileBag->addBack(tile);
 
          numberOfTiles++;
@@ -35,12 +37,15 @@ LinkedList* TileBag::getTileBag(){
 Tile* TileBag::getRandomTile(){
    Tile* tile = nullptr;
    std::random_device randomSeed;
-   std::uniform_int_distribution<int> uniform_dist(0, MAX_HAND_SIZE);
+   std::uniform_int_distribution<int> uniform_dist(0, tileBag->getSize());
    int randIndex = uniform_dist(randomSeed);
+   std::cout<< "get a random tile from bag with index "<< randIndex << " \n";
    if (tileBag->get(randIndex) != nullptr) {
       tile = new Tile(*tileBag->get(randIndex));
+      std::cout<<"remove that tile from tilebag\n";
       tileBag->remove(randIndex);
    }
+   std::cout<<"Finish getting random tile\n";
    return tile;
 }
 
@@ -53,10 +58,15 @@ Hand* TileBag::initiateHand(){
       // Pick a random card from the deck!!!!
       Tile* tile = getRandomTile();
       if(tile != nullptr){
+         std::cout<<"Drawn tile is: " <<tile->letter <<"-"<<tile->value<<"\n";
          hand->addTile(tile);
       }
       ++i;
    }
    
    return hand;
+}
+
+int TileBag::getNumOfTiles(){
+   return numberOfTiles;
 }

@@ -10,7 +10,6 @@
 #include "Hand.h"
 #include "Tile.h"
 #include "LinkedList.h"
-#define PATH "/ScrabbleTile.txt"
 #define MAX_TILE_BAG_SIZE 98
 class TileBag{
     public:
@@ -19,11 +18,14 @@ class TileBag{
     LinkedList* getTileBag();
     Tile* getRandomTile();
     Hand* initiateHand();
+    int getNumOfTiles();
 
     private:
     int numberOfTiles;
     LinkedList* tileBag;
     void readTileBagFromFile();
+    void loadGameFromFile();
+    static const std::string PATH;
     
 };
 
