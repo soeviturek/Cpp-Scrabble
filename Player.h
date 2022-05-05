@@ -13,7 +13,7 @@ class Player{
     ~Player();
     //player gameplay
     void placeTile(Tile* tile, int row, int col);
-    void replaceTile(Tile* tile);
+    void replaceTile(Tile* tile, Tile* replacement);
     void pass();
     std::string printHand();
 

@@ -72,6 +72,7 @@ class GameEngine{
     private:
     std::vector<Player*> players;
     TileBag* tileBag;
+    Board* board;
 
     bool checkPlayerNameValidity(std::string name); //check if the name only contains letters
     bool checkBagEmpyty(); //check if the tile bag is empty
