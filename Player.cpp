@@ -21,12 +21,27 @@ void Player::pass(){
 std::string printHand();
 
 //player settings
-void setScore(int score);
-void setName(std::string playerName);
-void setHand(Hand* hand);
-Hand* getHand();
-std::string getName();
-int getScore();
+void Player::setScore(int score);
+void setName(std::string playerName) {
+   name = playerName;
+}
+
+void Player::setHand(Hand* hand) {
+   delete hand;
+   hand = new Hand(*hand);
+}
+
+Hand* Player::getHand() {
+   return hand;
+}
+
+std::string getName() {
+   return playerName;
+}
+
+int Player::getScore() {
+   return score;
+}
 
 
 void setPassTime(int passTime);
