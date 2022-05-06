@@ -1,5 +1,4 @@
 #include "TileBag.h"
-#include <iostream>
 
 const std::string TileBag::PATH = "ScrabbleTiles.txt";
 
@@ -39,13 +38,10 @@ Tile* TileBag::getRandomTile(){
    std::random_device randomSeed;
    std::uniform_int_distribution<int> uniform_dist(0, tileBag->getSize());
    int randIndex = uniform_dist(randomSeed);
-   std::cout<< "get a random tile from bag with index "<< randIndex << " \n";
    if (tileBag->get(randIndex) != nullptr) {
       tile = new Tile(*tileBag->get(randIndex));
-      std::cout<<"remove that tile from tilebag\n";
       tileBag->remove(randIndex);
    }
-   std::cout<<"Finish getting random tile\n";
    return tile;
 }
 
@@ -58,7 +54,6 @@ Hand* TileBag::initiateHand(){
       // Pick a random card from the deck!!!!
       Tile* tile = getRandomTile();
       if(tile != nullptr){
-         std::cout<<"Drawn tile is: " <<tile->letter <<"-"<<tile->value<<"\n";
          hand->addTile(tile);
       }
       ++i;

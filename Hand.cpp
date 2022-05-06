@@ -32,9 +32,11 @@ bool Hand::delTile(Tile* tile){
 int Hand::getNumOfTiles(){
     return numOfTiles;
 }
-
+Tile* Hand::getTile(int index){
+    return hand->get(index);
+}
 std::string Hand::printHand(){
-    std::string handString = "Your hand is: ";
+    std::string handString = "Your hand is\n";
     for(int i = 0; i < hand->getSize(); ++i){
         Tile* tile = hand->get(i);
          handString += tile->letter;

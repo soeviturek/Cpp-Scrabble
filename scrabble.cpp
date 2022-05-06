@@ -29,17 +29,20 @@ int main(void) {
    // }
    
    // //generate hand 
-   // Hand* hand = tileBag->initiateHand();
-   // std::cout << hand->printHand();
+   TileBag* tileBag = new TileBag();
+   Hand* hand = tileBag->initiateHand();
+   std::cout << hand->printHand();
    // Tile* tempTile = new Tile();
    // tempTile->letter = 'A';
    // tempTile->value = 1;
    // hand->delTile(tempTile);
    // std::cout << hand->printHand();
-   // delete tileBag;
+   delete tileBag;
+   delete hand;
    // delete hand;
    // delete tempTile;
 
+<<<<<<< HEAD
    Board* board = new Board();
    Tile* tile = new Tile();
    tile->letter = 'Q';
@@ -49,6 +52,18 @@ int main(void) {
    std::cout<< "Place: " << board->getSquare(5,5);
    std::cout<< "Board:\n" << board->printBoard();
    delete board;
+=======
+   // Board* board = new Board();
+   // Tile* tile = new Tile();
+   // tile->letter = 'Q';
+   // tile->value = 99;
+   // std::cout<< "Board:\n" << board->printBoard();
+   // board->placeTile(tile,5,5);
+   // std::cout<< "Place: " << board->getSquare(5,5);
+   // std::cout<< "Board:\n" << board->printBoard();
+   // delete board;
+   // delete tile;
+>>>>>>> nick
 
    
    return EXIT_SUCCESS;
