@@ -49,7 +49,6 @@ int main(void) {
    std::cout<< "Place: " << board->getSquare(5,5);
    std::cout<< "Board:\n" << board->printBoard();
    delete board;
-   delete tile;
 
    
    return EXIT_SUCCESS;
