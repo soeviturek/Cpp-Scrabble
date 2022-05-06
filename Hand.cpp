@@ -10,6 +10,10 @@ Hand::~Hand(){
     delete hand;
 }
 
+Hand::Hand(Hand& other){
+    hand = new LinkedList(*other.hand);
+    numOfTiles = other.numOfTiles;
+}
 
 bool Hand::addTile(Tile* tile){
     bool check = false;

@@ -14,7 +14,11 @@ LinkedList::~LinkedList()
 
 LinkedList::LinkedList(LinkedList &other)
 {
-   // TODO
+   head = nullptr;
+   for(int i = 0; i < other.getSize(); ++i){
+        Tile* tile = new Tile(*other.get(i));
+        addBack(tile);
+    }
 }
 bool LinkedList::addFront(Tile *tile)
 {

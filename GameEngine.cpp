@@ -2,10 +2,16 @@
 #include <iostream>
 
 GameEngine::GameEngine(){
-    //todo
+    tileBag = nullptr;
+    board = nullptr;
 }
 GameEngine::~GameEngine(){
-    //todo
+    if(tileBag != nullptr){
+        delete tileBag;
+    }
+    if(board != nullptr){
+        delete board;
+    }
 }
 
 void GameEngine::setupGame(){
@@ -111,9 +117,11 @@ int GameEngine::convertLetterToNum(char letter){
     return n - 97;
 }
 bool GameEngine::checkPlayerNameValidity(std::string name){
-    bool check = false;
-    if(name.compare("1") == 0){
-        check = true;
+    bool check = true;
+    for(char c : name){
+        if(!isupper(c)){
+            check = false;
+        }
     }
     return check;
 }

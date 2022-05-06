@@ -14,6 +14,7 @@ class Hand{
     public:
     Hand();
     ~Hand();
+    Hand(Hand& other);
 
     bool addTile(Tile* tile);
     bool delTile(Tile* tile);

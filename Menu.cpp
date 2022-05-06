@@ -19,7 +19,6 @@ void Menu::run(){
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         } 
         else if(input == NEW_GAME){
-            gameEngine->newGame();
             std::cout<< "Starting a New Name" << std::endl;
             //add 2 players
             //player name should only be letters
@@ -35,9 +34,15 @@ void Menu::run(){
             }
             std::cout<< "Enter name for player 2:\n> ";
             gameEngine->addPlayer(playerName);
+            while(!check){
+                std::cout<< "Enter a Valid Name!\n> ";
+                std::cin >> playerName;
+                check = gameEngine->addPlayer(playerName);
+            }
             //play
             std::cout << "Let's Play!" << std::endl;
             gameEngine->setupGame();
+            gameEngine->newGame();
             // gameEngine->startGame();
         }
         else if(input == LOAD_GAME){
