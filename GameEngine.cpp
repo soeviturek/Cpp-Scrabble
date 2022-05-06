@@ -12,8 +12,7 @@ void GameEngine::setupGame(){
     tileBag = new TileBag();
     board = new Board();
     //hand
-    for(int i = 0; i < players.size();++i){
-        Player* player = players[i];
+    for(Player* player : players){
         player->setHand(tileBag->initiateHand());
     }
 }
@@ -22,8 +21,8 @@ void GameEngine::newGame(){
     //todo
     Player* currentPlayer = nullptr;
     std::cout<<currentPlayer->getName()<<", it's your turn" << std::endl;
-    for(int i = 0; i < players.size(); ++i){
-        std::cout<<"Score for" << players[i] << ": " << std::endl;
+    for(Player* player : players){
+        std::cout<<"Score for" << player->getName() << ": " << std::endl;
     }
     std::cout << board << std::endl;
     std::cout << "Your hand is\n" << currentPlayer->getHand();
@@ -44,11 +43,10 @@ void GameEngine::newGame(){
     //check if game ends;
 //??????????????????????????????????????
 for (std::string s : tokens) //Gets all tokens one by one
-    for (char c : s)// Gets all char in each token
-        if (islower(c))// Checks if thats a lowercase letter
+    for(char c : s){// Gets all char in each token
+        if(islower(c)){// Checks if thats a lowercase letter
             std::cout << c << std::endl;
-    if(input == "pass"){
-
+        }
     }
 
 }
@@ -74,8 +72,8 @@ void GameEngine::placeTile(Tile* tile, int row, int col){
 }
 int GameEngine::calculateScore(std::vector<Tile*> tiles){
     int score = 0;
-    for(int i = 0; i < tiles.size(); ++i){
-        score += tiles[i]->value;
+    for(Tile* tile : tiles){
+        score += tile->value;
     }
     return score;
 }

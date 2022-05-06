@@ -1,6 +1,6 @@
 
 #include "LinkedList.h"
-#include <iostream>
+
 LinkedList::LinkedList()
 {
    head = nullptr;
@@ -29,13 +29,11 @@ bool LinkedList::addBack(Tile *tile)
    Node *node = new Node(tile, nullptr);
    if (head == nullptr)
    {
-      std::cout<<"add as head\n";
       head = node;
       tail = node;
    }
    else
    {
-      std::cout<<"add as back\n";
       Node *current = head;
       while (current->next != nullptr)
       {
@@ -50,16 +48,13 @@ bool LinkedList::addBack(Tile *tile)
 
 bool LinkedList::remove(int index)
 {
-   std::cout << "Delete: " << index <<"! ";
    bool check = false;
    if (index == 0)
    {
-      std::cout << "go to removeFront()..\n";
       check = removeFront();
    }
    else if (index == size)
    {
-      std::cout << "go to removeBack()..\n";
       check = removeBack();
    }
    else if (index > 0 && index < size)
@@ -74,7 +69,6 @@ bool LinkedList::remove(int index)
          // move current to the index and prev to the one before index
          while (counter != index)
          {
-            std::cout << counter << " ";
             ++counter;
             prev = current;
             current = current->next;
@@ -87,7 +81,6 @@ bool LinkedList::remove(int index)
          // }
          prev->next = current->next;
          current->next = nullptr;
-         std::cout << "removing..\n";
          delete current->tile;
          delete current;
          check = true;
