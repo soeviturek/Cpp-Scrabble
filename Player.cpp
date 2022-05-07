@@ -2,6 +2,7 @@
 
 Player::Player(std::string playerName){
     name = playerName;
+    hand = new Hand();
 }
 Player::~Player(){
     delete hand;

@@ -1,5 +1,5 @@
 #include "Board.h"
-
+#include <iostream>
 Board::Board(){
     for(int i = 0; i < DEFAULT_DIMENSION; ++i){
         std::vector<Tile*> rowVector;
@@ -27,6 +27,7 @@ std::string Board::printBoard(){
         //string.append(char)
         for(int j = 0; j < DEFAULT_DIMENSION; ++j){
             if(board[i][j] == nullptr){
+                std::cout<< i <<"," <<j <<" nullptr!\n";
                 boardStatus += "   |";
             }else{
                 Tile* tile = board[i][j];

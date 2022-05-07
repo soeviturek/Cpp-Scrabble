@@ -17,8 +17,9 @@ class TileBag{
     ~TileBag();
     LinkedList* getTileBag();
     Tile* getRandomTile();
-    Hand* initiateHand();
+    void initiateHand(Hand* hand);
     int getNumOfTiles();
+    Tile* getTile(int index);
 
     private:
     int numberOfTiles;

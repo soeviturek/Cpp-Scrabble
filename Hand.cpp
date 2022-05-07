@@ -46,7 +46,10 @@ std::string Hand::printHand(){
          handString += tile->letter;
          handString += "-";
          handString += std::to_string(tile->value);
-         handString += " ";
+         if(i < hand->getSize()-1){
+             handString += ",";
+         }
     }
+    handString += "\n";
     return handString;
 }

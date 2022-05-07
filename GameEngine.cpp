@@ -19,42 +19,69 @@ void GameEngine::setupGame(){
     board = new Board();
     //hand
     for(Player* player : players){
-        player->setHand(tileBag->initiateHand());
+        tileBag->initiateHand(player->getHand());
     }
+    // tileBag->initiateHand(players[0]->getHand());
 }
 
 void GameEngine::newGame(){
     //todo
-    Player* currentPlayer = nullptr;
+    Player* currentPlayer = players[0];
     std::cout<<currentPlayer->getName()<<", it's your turn" << std::endl;
     for(Player* player : players){
-        std::cout<<"Score for" << player->getName() << ": " << std::endl;
+        std::cout<<"Score for " << player->getName() << ": " << player->getScore() << std::endl;
     }
-    std::cout << board << std::endl;
-    std::cout << "Your hand is\n" << currentPlayer->getHand();
+    std::cout << board->printBoard();
+    std::cout << currentPlayer->getHand()->printHand();
     
     std::string input = "";
-    std::vector<std::string> tokens;
     bool check = false;
-    //not sure about this
-    while (std::getline(std::cin, input) && !check){
-        if(input.find("place")){
+
+    //get use input
+    std::cout << "> ";
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::getline(std::cin, input);
+    while (!check){
+        std::vector<char> tokens;
+        std::cout << ">";
+        std::cin.clear();
+        std::getline(std::cin, input);
+        std::cout << "checking input..\n";
+        if(input.find("place") != std::string::npos){
+            input.erase(0,5);
+            if(input.find("at") != std::string::npos){
+                for(char c : input){
+                    if(c != ' '){
+                        tokens.push_back(c);
+                    }
+                }
+                if(tokens.size() == 5 && isupper(tokens[0])&& isupper(tokens[3]) && isdigit(tokens[4])){
+                    Tile* tile = new Tile();
+                    tile->letter = tokens[0];
+                    tile->value = tile->getValue(tokens[0]);
+                    int row = convertLetterToNum(tokens[3]);
+                    int col = tokens[4] - '0'; //ascii for 0 starts at 48
+                    currentPlayer->placeTile(tile,row,col);
+                    board->placeTile(tile,row,col);
+                    currentPlayer->setPassTime(0);
+                    check = true;
+                    std::cout << board->printBoard();
+                }else{
+                    std::cout<<"Wrong format!\n";
+                }
+            }
+        }else if(input.find("replace") != std::string::npos){
             currentPlayer->setPassTime(0);
-        }else if(input.find("replace")){
-            currentPlayer->setPassTime(0);
-        }else if(input.find("pass")){
+            check = true;
+        }else if(input.find("pass") != std::string::npos){
             currentPlayer->pass();
+            check = true;
+        }else{
+            std::cout << "Invalid Input!" << std::endl;
         }
     }
     //check if game ends;
-//??????????????????????????????????????
-for (std::string s : tokens) //Gets all tokens one by one
-    for(char c : s){// Gets all char in each token
-        if(islower(c)){// Checks if thats a lowercase letter
-            std::cout << c << std::endl;
-        }
-    }
-
 }
 
 bool GameEngine::addPlayer(std::string playerName){
@@ -114,7 +141,7 @@ void GameEngine::quit(){
 }
 int GameEngine::convertLetterToNum(char letter){
     int n = letter;
-    return n - 97;
+    return n - 'A';
 }
 bool GameEngine::checkPlayerNameValidity(std::string name){
     bool check = true;

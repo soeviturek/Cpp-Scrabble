@@ -77,14 +77,12 @@ bool LinkedList::remove(int index)
             prev = current;
             current = current->next;
          }
+         if(prev == nullptr){
+               head = current->next;
+            }else{
+               prev->next = current->next;
+            }
 
-         // if(prev == nullptr){
-         //     head = current->next;
-         // }else{
-         //     prev->next = current->next;
-         // }
-         prev->next = current->next;
-         current->next = nullptr;
          delete current->tile;
          delete current;
          check = true;

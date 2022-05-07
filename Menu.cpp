@@ -31,19 +31,24 @@ void Menu::run(){
                 std::cout<< "Enter a Valid Name!\n> ";
                 std::cin >> playerName;
                 check = gameEngine->addPlayer(playerName);
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
             std::cout<< "Enter name for player 2:\n> ";
-            gameEngine->addPlayer(playerName);
+            std::cin >> playerName;
+            check = gameEngine->addPlayer(playerName);
             while(!check){
                 std::cout<< "Enter a Valid Name!\n> ";
                 std::cin >> playerName;
                 check = gameEngine->addPlayer(playerName);
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
+            gameEngine->addPlayer(playerName);
             //play
             std::cout << "Let's Play!" << std::endl;
             gameEngine->setupGame();
             gameEngine->newGame();
-            // gameEngine->startGame();
         }
         else if(input == LOAD_GAME){
             std::cout<< "Enter the filename from which load a game" << std::endl;
