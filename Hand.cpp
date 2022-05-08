@@ -12,7 +12,6 @@ Hand::~Hand(){
 
 Hand::Hand(Hand& other){
     hand = new LinkedList(*other.hand);
-    numOfTiles = other.numOfTiles;
 }
 
 bool Hand::addTile(Tile* tile){
@@ -34,10 +33,19 @@ bool Hand::delTile(Tile* tile){
 }
 
 int Hand::getNumOfTiles(){
-    return numOfTiles;
+    return hand->getSize();
 }
 Tile* Hand::getTile(int index){
     return hand->get(index);
+}
+bool Hand::hasTile(Tile* tile){
+    return hand->contains(tile);
+}
+void Hand::replaceTile(Tile* tileToDel, Tile* replacementTile){
+    int index = hand->getIndex(tileToDel);
+    Tile* tile = hand->get(index);
+    delete tile;
+    tile = replacementTile;
 }
 std::string Hand::printHand(){
     std::string handString = "Your hand is\n";

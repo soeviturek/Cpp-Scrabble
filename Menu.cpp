@@ -72,6 +72,7 @@ void Menu::run(){
         }
         else if(input == QUIT){
             std::cout << "Goodbye" << std::endl;
+            gameEngine->quit();
         }
         else{
             //invalid input

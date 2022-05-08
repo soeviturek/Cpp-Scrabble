@@ -19,6 +19,8 @@ class Hand{
     bool addTile(Tile* tile);
     bool delTile(Tile* tile);
     Tile* getTile(int index);
+    bool hasTile(Tile* tile);
+    void replaceTile(Tile* tileToDel, Tile* replacementTile);
     int getNumOfTiles();
     std::string printHand();
     private:

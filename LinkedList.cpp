@@ -5,6 +5,7 @@ LinkedList::LinkedList()
 {
    head = nullptr;
    tail = nullptr;
+   size = 0;
 }
 
 LinkedList::~LinkedList()
@@ -15,6 +16,7 @@ LinkedList::~LinkedList()
 LinkedList::LinkedList(LinkedList &other)
 {
    head = nullptr;
+   size = 0;
    for(int i = 0; i < other.getSize(); ++i){
         Tile* tile = new Tile(*other.get(i));
         addBack(tile);

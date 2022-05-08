@@ -12,6 +12,9 @@ Player::~Player(){
 void Player::placeTile(Tile* tile, int row, int col){
     hand->delTile(tile);
 }
+void Player::drawTile(Tile* tile){
+    hand->addTile(tile);
+}
 void Player::replaceTile(Tile* tile, Tile* replacement){
     hand->delTile(tile);
 
