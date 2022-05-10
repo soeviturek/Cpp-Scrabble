@@ -1,5 +1,9 @@
 #include "Player.h"
 
+Player::Player(){
+    name = "";
+    hand = new Hand();
+}
 Player::Player(std::string playerName){
     name = playerName;
     hand = new Hand();

@@ -20,6 +20,7 @@ class TileBag{
     void initiateHand(Hand* hand);
     int getNumOfTiles();
     Tile* getTile(int index);
+    std::string printTileBag();
 
     private:
     int numberOfTiles;

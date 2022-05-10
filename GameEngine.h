@@ -8,6 +8,7 @@
 #include "TileBag.h"
 #include "Board.h"
 #include <vector>
+#include <fstream>
 
 class GameEngine{
     public:
@@ -66,11 +67,14 @@ class GameEngine{
 
     void saveGame(std::string fileName); //saves the current game, after saving game continues
     bool loadGame(std::string fileName);//check file exists, check format
-    bool gameOver(); //print "Game Over", print "Score for {player name}: " score, print "Player <winniner player name> won!"
+    bool gameOver(); //check if game is over
+    void endGame();//print "Game Over", print "Score for {player name}: " score, print "Player <winniner player name> won!"
     void quit(); //
+    void switchPlayer();
 
     private:
     std::vector<Player*> players;
+    int currentPlayerIndex;
     TileBag* tileBag;
     Board* board;
 

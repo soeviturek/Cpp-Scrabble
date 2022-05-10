@@ -6,79 +6,94 @@ Menu::Menu(){
 Menu::~Menu(){
     delete gameEngine;
 }
+const std::string Menu::newGame = "1";
+const std::string Menu::loadGame = "2";
+const std::string Menu::credit = "3";
+const std::string Menu::quit = "4";
+
 void Menu::run(){
     std::cout << "Welcome to Scrabble!\n-------------------" << std::endl;
-    int input = 0;
+    std::string input = "";
     do{
         printMenu();
         std::cout << "> ";
-        std::cin >> input;
+        std::getline(std::cin,input);
         if(!std::cin.good()){
             std::cout<<"Invalid Input!"<<std::endl;
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         } 
-        else if(input == NEW_GAME){
+        else if(input == newGame){
             std::cout<< "Starting a New Name" << std::endl;
             //add 2 players
             //player name should only be letters
-            std::string playerName = "";
-            std::cout<< "Enter name for player 1:\n> ";
-            std::cin >> playerName;
-            //check name
-            bool check = gameEngine->addPlayer(playerName);
-            while(!check){
-                std::cout<< "Enter a Valid Name!\n> ";
-                std::cin >> playerName;
-                check = gameEngine->addPlayer(playerName);
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            // std::string playerName = "";
+            // std::cout<< "Enter name for player 1:\n> ";
+            // std::cin >> playerName;
+            // //check name
+            // bool check = gameEngine->addPlayer(playerName);
+            // while(!check){
+            //     std::cout<< "Enter a Valid Name!\n> ";
+            //     std::cin >> playerName;
+            //     check = gameEngine->addPlayer(playerName);
+            //     std::cin.clear();
+            //     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            // }
+            // std::cout<< "Enter name for player 2:\n> ";
+            // std::cin >> playerName;
+            // check = gameEngine->addPlayer(playerName);
+            // while(!check){
+            //     std::cout<< "Enter a Valid Name!\n> ";
+            //     std::cin >> playerName;
+            //     check = gameEngine->addPlayer(playerName);
+            //     std::cin.clear();
+            //     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            // }
+            // gameEngine->addPlayer(playerName);
+            for(int i = 0; i < 2;++i){
+                std::cout<< "Enter name for player "<< i+1<<":\n> ";
+                bool check = false;
+                while(!check){
+                    std::cout << "> ";
+                    std::string name = "";
+                    getline(std::cin, name);
+                    if(gameEngine->addPlayer(name)){
+                        check = true;
+                    }else{
+                        std::cout << "Please Enter a Valid Name!\n";
+                        check =false;
+                    }
+                }
+                
             }
-            std::cout<< "Enter name for player 2:\n> ";
-            std::cin >> playerName;
-            check = gameEngine->addPlayer(playerName);
-            while(!check){
-                std::cout<< "Enter a Valid Name!\n> ";
-                std::cin >> playerName;
-                check = gameEngine->addPlayer(playerName);
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
-            gameEngine->addPlayer(playerName);
             //play
             std::cout << "Let's Play!" << std::endl;
             gameEngine->setupGame();
             gameEngine->newGame();
         }
-        else if(input == LOAD_GAME){
+        else if(input == loadGame){
             std::cout<< "Enter the filename from which load a game" << std::endl;
             std::cout << "> ";
             std::string fileName = "";
             std::cin >> fileName;
-            gameEngine->loadGame(fileName);
-            //check file exists
-            //check format
-            //load game
-            std::cout << "Scrabble game successfully loaded" << std::endl;
-            
-            //file does not exist
-            std::cout << "File does not exist!" << std::endl;
+            if(gameEngine->loadGame(fileName)){
+                gameEngine->newGame();
+            }
         }
-        else if(input == CREDITS){
+        else if(input == credit){
             //display credits
             std::cout << "Name: Yuchen Wu" << std::endl;
             std::cout << "Student ID: S3776244" << std::endl;
             std::cout << "Email: s3776244@student.rmit.edu.au" << std::endl;
         }
-        else if(input == QUIT){
-            std::cout << "Goodbye" << std::endl;
+        else if(input == quit){
             gameEngine->quit();
         }
         else{
             //invalid input
             std::cout<<"Invalid Input!"<<std::endl;
         }
-    }while(input != QUIT);
+    }while(input != quit);
     
 }
 

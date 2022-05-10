@@ -5,10 +5,7 @@
 #include "GameEngine.h"
 #include <string>
 #include <iostream>
-#define NEW_GAME 1
-#define LOAD_GAME 2
-#define CREDITS 3
-#define QUIT 4
+
 
 class Menu {
 public:
@@ -20,6 +17,10 @@ public:
 private:
     GameEngine* gameEngine;
     void printMenu();
+    static const std::string newGame;
+    static const std::string loadGame;
+    static const std::string credit;
+    static const std::string quit;
 };
 
 #endif // ASSIGN2_Menu_H

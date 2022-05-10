@@ -4,6 +4,7 @@
 GameEngine::GameEngine(){
     tileBag = nullptr;
     board = nullptr;
+    currentPlayerIndex = 0;
 }
 GameEngine::~GameEngine(){
     if(tileBag != nullptr){
@@ -25,10 +26,9 @@ void GameEngine::setupGame(){
 }
 
 void GameEngine::newGame(){
-    //todo
     bool gameover = false;
     while(!gameover){
-    Player* currentPlayer = players[0];
+    Player* currentPlayer = players[currentPlayerIndex];
     std::cout<<currentPlayer->getName()<<", it's your turn" << std::endl;
     for(Player* player : players){
         std::cout<<"Score for " << player->getName() << ": " << player->getScore() << std::endl;
@@ -43,8 +43,6 @@ void GameEngine::newGame(){
     bool check = false;
 
     //get user input
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     std::vector<std::string> placedTiles;
     Hand* tempCopyHand = new Hand(*currentPlayer->getHand());
@@ -54,9 +52,9 @@ void GameEngine::newGame(){
     std::vector<int> cols; //to store all cols
     bool legal = true; //assume the placement is legal
     while (!check){
+        std::cin.clear();
         std::vector<char> tokens;
         std::cout << "> ";
-        std::cin.clear();
         std::getline(std::cin, input);
         if(input.find("place") != std::string::npos){
             input.erase(0,5);
@@ -84,6 +82,7 @@ void GameEngine::newGame(){
                                     std::cout<<"tile(s) around that spot, legal spot to place!";
                                     board->placeTile(tile,row,col);
                                     tempCopyHand->delTile(tile);
+                                    // tiles.push_back(tile);
                                 }else{
                                     legal = false;
                                 }
@@ -94,7 +93,7 @@ void GameEngine::newGame(){
                     }
                     //check if tiles are on the same row
                     if(legal){
-                        std::cout<<"check if on the sam row or col\n";
+                        std::cout<<"check if on the same row or col\n";
                         int rowCompare = rows[0];
                         bool sameRow = true;
                         int colCompare = cols[0];
@@ -109,6 +108,7 @@ void GameEngine::newGame(){
                                 sameCol = false;
                             }
                         }
+                        std::cout << "finish checking\n";
                         if(sameRow || sameCol){
                             std::cout<<"all legal! place tiles\n";
                             int index = 0;
@@ -118,15 +118,28 @@ void GameEngine::newGame(){
                                 index++;
                             }
                         }
+                        check = true;
+                        int add = calculateScore(tiles);
+                        int finalScore = add + currentPlayer->getScore();
+                        currentPlayer->setScore(finalScore);
+                        switchPlayer();
                     }else{
                         std::cout << "illegal, cannot place tiles\n";
+                        std::string waste = "";
+                        std::getline(std::cin, waste);
                         int index = 0;
+                        placedTiles.clear();
                         for(int row: rows){
                             board->placeTile(nullptr,row,cols[0]);
                             index++;
                         }
+                        rows.clear();
+                        cols.clear();
+                        // for(Tile* tile : tiles){
+                        //     delete tile;
+                        //     // tiles.pop_back();
+                        // }
                     }
-                    check = true;
                 }else{
                     std::cout<<"Invalid Command!" << std::endl;  
                 }
@@ -151,18 +164,40 @@ void GameEngine::newGame(){
         }else if(input.find("replace") != std::string::npos){
             currentPlayer->setPassTime(0);
             check = true;
+            switchPlayer();
         }else if(input.find("pass") != std::string::npos){
             currentPlayer->pass();
             check = true;
+            switchPlayer();
+        }else if(input.find("save") != std::string::npos){
+            input.erase(0,4);
+            std::string fileName = "";
+            std::vector<char> tokens;
+            for(char c : input){
+                if(c != ' '){
+                    tokens.push_back(c);
+                }
+            }
+            if(tokens.size() != 0){
+                for(char c : tokens){
+                    fileName += c;
+                }
+                saveGame(fileName);
+            }else{
+                std::cout << "Enter file name!\n"; 
+            }
+
         }else{
             std::cout << "Invalid Input!" << std::endl;
         }
     }
     //check if game ends;
     gameover = gameOver();
-
+    if(gameover){
+        endGame();
     }
-    quit();
+    switchPlayer();
+    }
 }
 
 bool GameEngine::addPlayer(std::string playerName){
@@ -173,6 +208,14 @@ bool GameEngine::addPlayer(std::string playerName){
         check = true;
     }
     return check;
+}
+void GameEngine::switchPlayer(){
+    if(currentPlayerIndex<(int)players.size()){
+        currentPlayerIndex++;
+    }
+    if(currentPlayerIndex == (int)players.size()){
+        currentPlayerIndex = 0;
+    }
 }
 void GameEngine::setPlayerScore(Player* player, int score){
     player->setScore(score);
@@ -205,11 +248,77 @@ std::string GameEngine::displayBoard(){
 }
 
 void GameEngine::saveGame(std::string fileName){
-    //todo
+    std::ofstream file(fileName);
+    if(file.is_open()){
+        for(Player* player : players){
+            file << player->getName() << std::endl << player->getScore() << std::endl;
+            file << player->getHand()->printHand();
+        }
+        
+        file<< board->printBoard();
+        file << tileBag->printTileBag();
+        file << players[currentPlayerIndex]->getName() << std::endl;
+        std::cout << "Game saved successfully!" << std::endl;
+        file.close();
+    }
 }
-bool GameEngine::loadGame(std::string fileName){
+bool GameEngine::loadGame(std::string fileName = "/save.txt"){
     bool check = false;
-    //todo
+    // if file not exist
+    std::ifstream file(fileName);
+    if (!file.good()) {
+        std::cout << "File does not exist!" << std::endl;
+        check = false;
+    }
+    
+    for(Player* player : players){
+        delete player;
+    }
+    try {
+        if (file.is_open()) {
+            Player* player1 = new Player();
+            Player* player2 = new Player();
+            std::string line;
+            getline(file, line);
+            player1->setName(line);
+            getline(file, line);
+            player1->setScore(std::stoi(line));
+            getline(file, line);
+            //load hand
+            //split by ,
+            //use add Tile
+            player1->getHand()->setHand(line);
+            //load hand
+            getline(file, line);
+            player2->setName(line);
+            getline(file, line);
+            player2->setScore(std::stoi(line));
+            getline(file, line);
+            //load hand
+            player2->getHand()->setHand(line);
+            //load hand
+            //load board
+            //skip first two lines
+            //erase first 4 characters, split by '|'
+            //compare with '   ' three spaces
+            //read the 2nd character 
+            // board->loadBoard(file);
+            
+            //load board
+            getline(file, line);
+            // tileBag->parse(line);
+            getline(file, line);
+            //get current player
+            while(line.compare(players[currentPlayerIndex]->getName()) != 0){
+                currentPlayerIndex++;
+            }
+            std::cout << "Scrabble game loaded successfully!" << std::endl;
+            file.close();
+            check =  true;
+        }
+    } catch (const std::exception &e) {
+        std::cout << "Incorrect file format!" << std::endl;
+    }
     return check;
 }
 bool GameEngine::gameOver(){
@@ -225,7 +334,23 @@ bool GameEngine::gameOver(){
     }
     return check;
 }
+void GameEngine::endGame(){
+    std::cout << "Game over\n";
+    int max = 0;
+    Player* winner = nullptr;
+    for(Player * player : players){
+        int score = player->getScore();
+        std::cout << "Score for " << player->getName() << ": " << score;
+        if(score > max){
+            max = score;
+            winner = player;
+        }
+    }
+    std::cout << "Player " << winner->getName() << " won!";
+    quit();
+}
 void GameEngine::quit(){
+    std::cout << "Goodbye\n";
     exit(EXIT_SUCCESS);
 }
 int GameEngine::convertLetterToNum(char letter){
@@ -234,6 +359,9 @@ int GameEngine::convertLetterToNum(char letter){
 }
 bool GameEngine::checkPlayerNameValidity(std::string name){
     bool check = true;
+    if(name == ""){
+        check = false;
+    }
     for(char c : name){
         if(!isupper(c)){
             check = false;

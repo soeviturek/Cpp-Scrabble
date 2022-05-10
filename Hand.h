@@ -22,6 +22,7 @@ class Hand{
     bool hasTile(Tile* tile);
     void replaceTile(Tile* tileToDel, Tile* replacementTile);
     int getNumOfTiles();
+    void setHand(std::string handString);
     std::string printHand();
     private:
     LinkedList* hand;

@@ -59,6 +59,20 @@ void TileBag::initiateHand(Hand* hand){
       }
    }
 }
+std::string TileBag::printTileBag(){
+   std::string tileBagString = "";
+   for(int i = 0; i < tileBag->getSize(); ++i){
+      Tile* tile = tileBag->get(i);
+      tileBagString += tile->letter;
+      tileBagString += "-";
+      tileBagString += std::to_string(tile->value);
+      if(i != tileBag->getSize()){
+         tileBagString += ",";
+      }
+   }
+   tileBagString += "\n";
+   return tileBagString;
+}
 
 int TileBag::getNumOfTiles(){
    return numberOfTiles;

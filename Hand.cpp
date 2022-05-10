@@ -47,8 +47,11 @@ void Hand::replaceTile(Tile* tileToDel, Tile* replacementTile){
     delete tile;
     tile = replacementTile;
 }
+void Hand::setHand(std::string handString){
+    //TODO
+}
 std::string Hand::printHand(){
-    std::string handString = "Your hand is\n";
+    std::string handString = "";
     for(int i = 0; i < hand->getSize(); ++i){
         Tile* tile = hand->get(i);
          handString += tile->letter;

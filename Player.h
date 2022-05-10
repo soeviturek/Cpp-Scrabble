@@ -9,6 +9,7 @@
 
 class Player{
     public:
+    Player();
     Player(std::string playerName);
     ~Player();
     //player gameplay
