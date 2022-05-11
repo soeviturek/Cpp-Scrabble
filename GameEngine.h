@@ -54,7 +54,7 @@ class GameEngine{
     //it should first gets what rows and cols, without repitition need to be checked
     //then it checks the rows and cols, it stops when hit the boundary of board
     //or hits an empty square.
-    int calculateScore(std::vector<Tile*> tiles); //calculate the total score after placing tiles
+    int calculateScore(std::vector<int> rows,std::vector<int> cols, int direction); //calculate the total score after placing tiles
     void checkVertical(int col);
     void checkHorizontal(int row);
     

@@ -17,12 +17,12 @@ GameEngine::~GameEngine(){
 
 void GameEngine::setupGame(){
     tileBag = new TileBag();
+    tileBag->readTileBagFromFile();
     board = new Board();
     //hand
     for(Player* player : players){
         tileBag->initiateHand(player->getHand());
     }
-    // tileBag->initiateHand(players[0]->getHand());
 }
 
 void GameEngine::newGame(){
@@ -38,7 +38,7 @@ void GameEngine::newGame(){
     board->placeTile(test,8,8);
     
     std::cout << board->printBoard();
-    std::cout << currentPlayer->getHand()->printHand();
+    std::cout << "Your hand is\n" << currentPlayer->getHand()->printHand();
     std::string input = "";
     bool check = false;
 
@@ -50,8 +50,9 @@ void GameEngine::newGame(){
     std::vector<Tile*> tiles; //tile to store all the tile object
     std::vector<int> rows; //to store all rows
     std::vector<int> cols; //to store all cols
-    bool legal = true; //assume the placement is legal
+    // bool legal = true; //assume the placement is legal
     while (!check){
+        bool legal = true;
         std::cin.clear();
         std::vector<char> tokens;
         std::cout << "> ";
@@ -78,11 +79,14 @@ void GameEngine::newGame(){
                             if(tempCopyHand->hasTile(tile) && board->getSquare(row,col) == ' '){
                                 std::cout<<"player has that tile in hand and that spot is empty!\n";
                                 //check if the tile placed has other tiles around it, place it, put the coordinates in the vector
-                                if(board->getSquare(row+1,col) != ' ' || board->getSquare(row-1,col) != ' ' || board->getSquare(row,col+1) != ' ' || board->getSquare(row,col-1) != ' '){
+                                if(isupper(board->getSquare(row+1,col))|| isupper(board->getSquare(row-1,col)) || isupper(board->getSquare(row,col+1)) || isupper(board->getSquare(row,col-1))){
                                     std::cout<<"tile(s) around that spot, legal spot to place!";
                                     board->placeTile(tile,row,col);
                                     tempCopyHand->delTile(tile);
-                                    // tiles.push_back(tile);
+                                    rows.push_back(row);
+                                    cols.push_back(col);
+                                    tiles.push_back(tile);
+                                
                                 }else{
                                     legal = false;
                                 }
@@ -114,19 +118,27 @@ void GameEngine::newGame(){
                             int index = 0;
                             for(Tile* tile : tiles){
                                 currentPlayer->placeTile(tile, rows[0], cols[0]);
-                                currentPlayer->drawTile(tileBag->getRandomTile());
+                                currentPlayer->drawTile(tileBag->getTile(0));
                                 index++;
                             }
                         }
                         check = true;
-                        int add = calculateScore(tiles);
+                        int add = 0;
+                        if(sameRow){
+                            add = calculateScore(rows, cols, 0);
+                        }else if(sameCol){
+                            add = calculateScore(rows, cols, 1);
+                        }
+                        if(tiles.size() == MAX_HAND_SIZE){
+                            std::cout << "BINGO!" << std::endl;
+                            add += 50;
+                        }
                         int finalScore = add + currentPlayer->getScore();
                         currentPlayer->setScore(finalScore);
-                        switchPlayer();
+                        // switchPlayer();
                     }else{
                         std::cout << "illegal, cannot place tiles\n";
-                        std::string waste = "";
-                        std::getline(std::cin, waste);
+
                         int index = 0;
                         placedTiles.clear();
                         for(int row: rows){
@@ -135,10 +147,10 @@ void GameEngine::newGame(){
                         }
                         rows.clear();
                         cols.clear();
-                        // for(Tile* tile : tiles){
-                        //     delete tile;
-                        //     // tiles.pop_back();
-                        // }
+                        for(Tile* tile : tiles){
+                            delete tile;
+                            tiles.pop_back();
+                        }
                     }
                 }else{
                     std::cout<<"Invalid Command!" << std::endl;  
@@ -164,11 +176,11 @@ void GameEngine::newGame(){
         }else if(input.find("replace") != std::string::npos){
             currentPlayer->setPassTime(0);
             check = true;
-            switchPlayer();
+            // switchPlayer();
         }else if(input.find("pass") != std::string::npos){
             currentPlayer->pass();
             check = true;
-            switchPlayer();
+            // switchPlayer();
         }else if(input.find("save") != std::string::npos){
             input.erase(0,4);
             std::string fileName = "";
@@ -193,11 +205,9 @@ void GameEngine::newGame(){
     }
     //check if game ends;
     gameover = gameOver();
-    if(gameover){
-        endGame();
-    }
     switchPlayer();
     }
+    endGame();
 }
 
 bool GameEngine::addPlayer(std::string playerName){
@@ -210,7 +220,7 @@ bool GameEngine::addPlayer(std::string playerName){
     return check;
 }
 void GameEngine::switchPlayer(){
-    if(currentPlayerIndex<(int)players.size()){
+    if(currentPlayerIndex < (int)players.size()){
         currentPlayerIndex++;
     }
     if(currentPlayerIndex == (int)players.size()){
@@ -227,11 +237,108 @@ void GameEngine::setPlayerName(Player* player, std::string name){
 void GameEngine::placeTile(Tile* tile, int row, int col){
 
 }
-int GameEngine::calculateScore(std::vector<Tile*> tiles){
+int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int direction){
     int score = 0;
-    for(Tile* tile : tiles){
-        score += tile->value;
+    Tile* temp = new Tile();
+    int row = rows[0];
+    int col = cols[0];
+    //horizontal
+    if(direction == 0){
+        bool check = true;
+        while(check){
+            if(isupper(board->getSquare(row,col))){
+                score += temp->getValue(board->getSquare(row,col));
+                row--;
+            }else{
+                check = false;
+            }
+        }
+        row = rows[0];
+        col = cols[0];
+        check = true;
+        while(check){
+            if(isupper(board->getSquare(row,col))){
+                score += temp->getValue(board->getSquare(row,col));
+                row++;
+            }else{
+                check = false;
+            }
+        }
+        row = rows[0];
+        col = cols[0];
+        //check vertical direction
+        for(int row : rows){
+            check = true;
+            while(check){
+                if(isupper(board->getSquare(row,col))){
+                score += temp->getValue(board->getSquare(row,col));
+                col++;
+                }else{
+                    check = false;
+                }
+            }
+            row = rows[0];
+            col = cols[0];
+            check = true;
+            while(check){
+                if(isupper(board->getSquare(row,col))){
+                score += temp->getValue(board->getSquare(row,col));
+                col--;
+                }else{
+                    check = false;
+                }
+            }
+        }
+    } //vertical
+    else if(direction == 1){
+        
+        bool check = true;
+        while(check){
+            if(isupper(board->getSquare(row,col))){
+                score += temp->getValue(board->getSquare(row,col));
+                col--;
+            }else{
+                check = false;
+            }
+        }
+        row = rows[0];
+        col = cols[0];
+        check = true;
+        while(check){
+            if(isupper(board->getSquare(row,col))){
+                score += temp->getValue(board->getSquare(row,col));
+                col++;
+            }else{
+                check = false;
+            }
+        }
+        row = rows[0];
+        col = cols[0];
+        //check horizontal direction
+        for(int row : rows){
+            check = true;
+            while(check){
+                if(isupper(board->getSquare(row,col))){
+                score += temp->getValue(board->getSquare(row,col));
+                row++;
+                }else{
+                    check = false;
+                }
+            }
+            row = rows[0];
+            col = cols[0];
+            check = true;
+            while(check){
+                if(isupper(board->getSquare(row,col))){
+                score += temp->getValue(board->getSquare(row,col));
+                row--;
+                }else{
+                    check = false;
+                }
+            }
+        }
     }
+    delete temp;
     return score;
 }
 void GameEngine::replaceTile(Tile* tile){
@@ -305,9 +412,9 @@ bool GameEngine::loadGame(std::string fileName = "/save.txt"){
             // board->loadBoard(file);
             
             //load board
-            getline(file, line);
+            // getline(file, line);
             // tileBag->parse(line);
-            getline(file, line);
+            // getline(file, line);
             //get current player
             while(line.compare(players[currentPlayerIndex]->getName()) != 0){
                 currentPlayerIndex++;
@@ -327,7 +434,7 @@ bool GameEngine::gameOver(){
         for(Player* player : players){
             if(player->getHand()->getNumOfTiles() == 0){
                 check = true;
-            }else if(player->getpassTime() == 2){
+            }else if(player->getpassTime() >= 2){
                 check = true;
             }
         }
@@ -346,6 +453,7 @@ void GameEngine::endGame(){
             winner = player;
         }
     }
+    //a tied game?
     std::cout << "Player " << winner->getName() << " won!";
     quit();
 }

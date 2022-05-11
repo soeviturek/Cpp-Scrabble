@@ -43,8 +43,10 @@ std::string Board::printBoard(){
 
 char Board::getSquare(int row, int col){
     Letter letter = ' ';
-    if(board[row][col] != nullptr){
-        // && row >= 0 && row < this->row && col >= 0 && col < this->col
+    if(row < 0 || col < 0 || row == DEFAULT_DIMENSION || col == DEFAULT_DIMENSION){
+        letter = '?';
+    }
+    else if(board[row][col] != nullptr){
         letter = board[row][col]->letter;
     }
     return letter;

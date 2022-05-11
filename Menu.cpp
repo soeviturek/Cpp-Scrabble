@@ -51,7 +51,7 @@ void Menu::run(){
             // }
             // gameEngine->addPlayer(playerName);
             for(int i = 0; i < 2;++i){
-                std::cout<< "Enter name for player "<< i+1<<":\n> ";
+                std::cout<< "Enter name for player "<< i+1<<":\n";
                 bool check = false;
                 while(!check){
                     std::cout << "> ";

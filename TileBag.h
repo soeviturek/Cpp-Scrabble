@@ -15,17 +15,15 @@ class TileBag{
     public:
     TileBag();
     ~TileBag();
-    LinkedList* getTileBag();
-    Tile* getRandomTile();
+    Tile* getRandomTile(LinkedList* temp);
     void initiateHand(Hand* hand);
     int getNumOfTiles();
     Tile* getTile(int index);
     std::string printTileBag();
-
+    void readTileBagFromFile();
     private:
     int numberOfTiles;
     LinkedList* tileBag;
-    void readTileBagFromFile();
     void loadGameFromFile();
     static const std::string PATH;
     
