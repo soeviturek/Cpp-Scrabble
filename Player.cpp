@@ -12,15 +12,22 @@ Player::~Player(){
     delete hand;
 }
 
-//maybe can use replaceTile() instead;
-void Player::placeTile(Tile* tile, int row, int col){
+
+void Player::placeTile(Tile* tile){
     hand->delTile(tile);
 }
 void Player::drawTile(Tile* tile){
     hand->addTile(tile);
 }
-void Player::replaceTile(Tile* tile, Tile* replacement){
-    hand->delTile(tile);
+bool Player::replaceTile(Tile* tile, Tile* replacement){
+    bool check = true;
+    check = hand->delTile(tile);
+    if(check){
+        hand->addTile(replacement);
+    }
+    
+
+    return check;
 
 }
 void Player::pass(){

@@ -60,7 +60,7 @@ class GameEngine{
     
 
 
-    void replaceTile(Tile* tile); //replace a tile, check if the tile is in hand, check if there is any in the bag
+    bool replaceTile(Tile* tile); //replace a tile, check if the tile is in hand, check if there is any in the bag
     Tile* drawTile(); //get a copy of tile from tileBag, add to hand, remove it from tileBag
     
     std::string displayBoard(); //returns a string the board status

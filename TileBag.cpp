@@ -2,7 +2,6 @@
 const std::string TileBag::PATH = "ScrabbleTiles.txt";
 
 TileBag::TileBag(){
-   numberOfTiles = 0;
    tileBag = new LinkedList();
 }
 TileBag::~TileBag(){
@@ -10,21 +9,31 @@ TileBag::~TileBag(){
    delete tileBag;
 }
 void TileBag::readTileBagFromFile(){
+   LinkedList* temp = new LinkedList();
     std::ifstream file(PATH);
     Letter letter = 'A';
     Value value = 1;
-    while(!file.eof() && numberOfTiles < MAX_TILE_BAG_SIZE) {
+    while(!file.eof() && temp->getSize() < MAX_TILE_BAG_SIZE) {
       file >> letter;
       file >> value;
-      if (!file.eof()) {
+      if (!file.eof()){
          Tile* tile = new Tile();
          tile->letter = letter;
          tile->value = value;
-         tileBag->addBack(tile);
-         numberOfTiles++;
+         temp->addBack(tile);
       }
    }
    file.close();
+   int count = 0;  
+while(count < MAX_TILE_BAG_SIZE){
+      Tile* tile = getRandomTile(temp);
+      tileBag->addBack(tile);
+      count++;
+   }
+   delete temp;
+}
+void TileBag::addTile(Tile* tile){
+   tileBag->addBack(tile);
 }
 Tile* TileBag::getTile(int index){
    return tileBag->get(index);
@@ -42,16 +51,19 @@ Tile* TileBag::getRandomTile(LinkedList* temp){
 }
 
 void TileBag::initiateHand(Hand* hand){
-
    // Randomise the players hand!!!!
-   int i = 0;
-   while (i < MAX_HAND_SIZE) {
+   int count = 0;
+   while (count < MAX_HAND_SIZE) {
       Tile* tile = tileBag->get(0);
       if(tile != nullptr){
-         hand->addTile(tile);
-         ++i;
+         hand->addTile(new Tile(*tile));
+         tileBag->removeFront();
+         ++count;
       }
    }
+}
+void TileBag::removeFront(){
+   tileBag->removeFront();
 }
 std::string TileBag::printTileBag(){
    std::string tileBagString = "";
@@ -69,5 +81,5 @@ std::string TileBag::printTileBag(){
 }
 
 int TileBag::getNumOfTiles(){
-   return numberOfTiles;
+   return tileBag->getSize();
 }

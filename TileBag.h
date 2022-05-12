@@ -18,11 +18,12 @@ class TileBag{
     Tile* getRandomTile(LinkedList* temp);
     void initiateHand(Hand* hand);
     int getNumOfTiles();
+    void addTile(Tile* tile);
     Tile* getTile(int index);
     std::string printTileBag();
     void readTileBagFromFile();
+    void removeFront();
     private:
-    int numberOfTiles;
     LinkedList* tileBag;
     void loadGameFromFile();
     static const std::string PATH;

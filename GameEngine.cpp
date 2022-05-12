@@ -57,7 +57,25 @@ void GameEngine::newGame(){
         std::vector<char> tokens;
         std::cout << "> ";
         std::getline(std::cin, input);
-        if(input.find("place") != std::string::npos){
+        if(input.find("replace") != std::string::npos){
+            input.erase(0,7);
+            for(char c : input){
+                if(c != ' '){
+                    tokens.push_back(c);
+                }
+            }
+            if(tokens.size() == 1){
+                if(isupper(tokens[0])){
+                    Tile* tile = new Tile();
+                    tile->letter = tokens[0];
+                    tile->value = tile->getValue(tokens[0]);
+                    if(replaceTile(tile)){
+                        currentPlayer->setPassTime(0);
+                        check = true;
+                    }
+                }
+            }
+        }else if(input.find("place") != std::string::npos){
             input.erase(0,5);
             if(input.find("DONE")!= std::string::npos){
                 for(char c: input){
@@ -86,7 +104,6 @@ void GameEngine::newGame(){
                                     rows.push_back(row);
                                     cols.push_back(col);
                                     tiles.push_back(tile);
-                                
                                 }else{
                                     legal = false;
                                 }
@@ -115,11 +132,9 @@ void GameEngine::newGame(){
                         std::cout << "finish checking\n";
                         if(sameRow || sameCol){
                             std::cout<<"all legal! place tiles\n";
-                            int index = 0;
                             for(Tile* tile : tiles){
-                                currentPlayer->placeTile(tile, rows[0], cols[0]);
-                                currentPlayer->drawTile(tileBag->getTile(0));
-                                index++;
+                                currentPlayer->placeTile(tile);
+                                currentPlayer->drawTile(new Tile(*tileBag->getTile(0)));
                             }
                         }
                         check = true;
@@ -173,10 +188,6 @@ void GameEngine::newGame(){
             }else{
                 std::cout << "Wrong format!\n";
             }
-        }else if(input.find("replace") != std::string::npos){
-            currentPlayer->setPassTime(0);
-            check = true;
-            // switchPlayer();
         }else if(input.find("pass") != std::string::npos){
             currentPlayer->pass();
             check = true;
@@ -341,12 +352,26 @@ int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int 
     delete temp;
     return score;
 }
-void GameEngine::replaceTile(Tile* tile){
-    //todo
+bool GameEngine::replaceTile(Tile* tile){
+    bool check = false;
+    if(tileBag->getNumOfTiles() > 0){
+        tileBag->addTile(tile);
+        if(!players[currentPlayerIndex]->replaceTile(tile, tileBag->getTile(0))){
+            std::cout << "That tile is not in player's hand!" << std::endl;
+        }else{
+            check = true;
+        }
+    }else{
+        std::cout << "No tile in the bag, cannot replace!"<< std::endl;
+    }
+    return check;
 }
 Tile* GameEngine::drawTile(){
-    //todo
-    return nullptr;
+    Tile* tile = nullptr;
+    if(tileBag->getNumOfTiles() > 0){
+        tile = tileBag->getTile(0);
+    }
+    return tile;
 }
 
 std::string GameEngine::displayBoard(){

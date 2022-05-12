@@ -13,9 +13,9 @@ class Player{
     Player(std::string playerName);
     ~Player();
     //player gameplay
-    void placeTile(Tile* tile, int row, int col);
+    void placeTile(Tile* tile);
     void drawTile(Tile* tile);
-    void replaceTile(Tile* tile, Tile* replacement);
+    bool replaceTile(Tile* tile, Tile* replacement);
     void pass();
     std::string printHand();
 
