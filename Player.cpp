@@ -61,6 +61,24 @@ void Player::setHand(Hand* hand) {
    }
    hand = new Hand(*hand);
 }
+void Player::loadHand(std::string handString){
+    std::string temp = "";
+    for(char c : handString){
+        if (c == ','){
+            Tile* tile = new Tile();
+            tile->letter = temp.at(0);
+            tile->value = temp.at(2) - '0';
+            this->getHand()->addTile(tile);
+            temp = "";
+        } else {
+            temp.push_back(c);
+        }
+    }
+    Tile* tile = new Tile();
+    tile->letter = temp.at(0);
+    tile->value = temp.at(2) - '0';
+    this->getHand()->addTile(tile);
+}
 
 Hand* Player::getHand() {
    return hand;

@@ -394,7 +394,7 @@ void GameEngine::saveGame(std::string fileName){
         file.close();
     }
 }
-bool GameEngine::loadGame(std::string fileName = "/save.txt"){
+bool GameEngine::loadGame(std::string fileName){
     bool check = false;
     // if file not exist
     std::ifstream file(fileName);
@@ -404,12 +404,17 @@ bool GameEngine::loadGame(std::string fileName = "/save.txt"){
     }
     
     for(Player* player : players){
-        delete player;
+        if(player != nullptr){
+            delete player;
+        }
     }
     try {
         if (file.is_open()) {
             Player* player1 = new Player();
             Player* player2 = new Player();
+            board = new Board();
+            tileBag = new TileBag();
+
             std::string line;
             getline(file, line);
             player1->setName(line);
@@ -419,34 +424,79 @@ bool GameEngine::loadGame(std::string fileName = "/save.txt"){
             //load hand
             //split by ,
             //use add Tile
-            player1->getHand()->setHand(line);
-            //load hand
+            player1->loadHand(line);
+            
             getline(file, line);
             player2->setName(line);
             getline(file, line);
             player2->setScore(std::stoi(line));
             getline(file, line);
-            //load hand
-            player2->getHand()->setHand(line);
-            //load hand
+            player2->loadHand(line);
+
+            players.push_back(player1);
+            players.push_back(player2);
             //load board
+            std::cout << "load board\n";
             //skip first two lines
             //erase first 4 characters, split by '|'
             //compare with '   ' three spaces
-            //read the 2nd character 
-            // board->loadBoard(file);
-            
-            //load board
-            // getline(file, line);
-            // tileBag->parse(line);
-            // getline(file, line);
+            file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            file.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+            std::vector<Tile*> boardStatus;
+            std::string temp = "";
+            for(int i = 0; i < DEFAULT_DIMENSION; ++i){
+                getline(file, line);
+                line.erase(0,4);
+                for(char c : line){
+                    if (c == '|') {
+                        if(temp.compare("   ") == 0){
+                            boardStatus.push_back(nullptr);
+                        }else{
+                            Tile* tile = new Tile();
+                            tile->letter = temp.at(1);
+                            tile->value = tile->getValue(tile->letter);
+                            boardStatus.push_back(tile);
+                        }
+                        temp = "";
+                    }else {
+                        temp.push_back(c);
+                    }
+                }
+            }
+            int row = 0;
+            int col = 0;
+            for(Tile* tile : boardStatus){
+                board->placeTile(tile,row,col);
+                col++;
+                if(col == 15){
+                    row++;
+                    col=0;
+                }
+            }
+
+            //load tilebag
+            getline(file,line);
+            temp = "";
+            for(char c : line){
+                if(c == ','){
+                    Tile* tile = new Tile();
+                    tile->letter = temp.at(0);
+                    tile->value = temp.at(2) - '0';
+                    tileBag->addTile(tile);
+                    temp = "";
+                }else{
+                    temp.push_back(c);
+                }
+            }
+
+
             //get current player
-            while(line.compare(players[currentPlayerIndex]->getName()) != 0){
+            getline(file, line);
+            if(player1->getName().compare(line) != 0){
                 currentPlayerIndex++;
             }
-            std::cout << "Scrabble game loaded successfully!" << std::endl;
             file.close();
-            check =  true;
+            check = true;
         }
     } catch (const std::exception &e) {
         std::cout << "Incorrect file format!" << std::endl;

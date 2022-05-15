@@ -6,6 +6,7 @@
 #define ASSIGN2_PLAYER_H
 #include <string>
 #include "Hand.h"
+#include <vector>
 
 class Player{
     public:
@@ -23,6 +24,7 @@ class Player{
     void setScore(int score);
     void setName(std::string playerName);
     void setHand(Hand* hand);
+    void loadHand(std::string handString);
     Hand* getHand();
     std::string getName();
     int getScore();

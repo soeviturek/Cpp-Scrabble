@@ -25,7 +25,7 @@ void TileBag::readTileBagFromFile(){
    }
    file.close();
    int count = 0;  
-while(count < MAX_TILE_BAG_SIZE){
+   while(count < MAX_TILE_BAG_SIZE){
       Tile* tile = getRandomTile(temp);
       tileBag->addBack(tile);
       count++;

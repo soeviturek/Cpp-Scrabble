@@ -25,31 +25,6 @@ void Menu::run(){
         } 
         else if(input == newGame){
             std::cout<< "Starting a New Name" << std::endl;
-            //add 2 players
-            //player name should only be letters
-            // std::string playerName = "";
-            // std::cout<< "Enter name for player 1:\n> ";
-            // std::cin >> playerName;
-            // //check name
-            // bool check = gameEngine->addPlayer(playerName);
-            // while(!check){
-            //     std::cout<< "Enter a Valid Name!\n> ";
-            //     std::cin >> playerName;
-            //     check = gameEngine->addPlayer(playerName);
-            //     std::cin.clear();
-            //     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            // }
-            // std::cout<< "Enter name for player 2:\n> ";
-            // std::cin >> playerName;
-            // check = gameEngine->addPlayer(playerName);
-            // while(!check){
-            //     std::cout<< "Enter a Valid Name!\n> ";
-            //     std::cin >> playerName;
-            //     check = gameEngine->addPlayer(playerName);
-            //     std::cin.clear();
-            //     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            // }
-            // gameEngine->addPlayer(playerName);
             for(int i = 0; i < 2;++i){
                 std::cout<< "Enter name for player "<< i+1<<":\n";
                 bool check = false;
