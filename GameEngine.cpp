@@ -121,6 +121,7 @@ void GameEngine::newGame(){
                                 }
                                 //check if the current tile exists, and if that location is empty and
                                 if(tempCopyHand->hasTile(tile) && board->getSquare(row,col) == ' '){
+                                    //check if centre is occupied
                                     if(centre){
                                         //if the centre is occupied, check if the tile has other tiles around it
                                         if(isupper(board->getSquare(row+1,col))|| isupper(board->getSquare(row-1,col)) || isupper(board->getSquare(row,col+1)) || isupper(board->getSquare(row,col-1))){
@@ -164,7 +165,9 @@ void GameEngine::newGame(){
                                 std::cout<<"all legal! place tiles\n";
                                 for(Tile* tile : tiles){
                                     currentPlayer->placeTile(tile);
-                                    currentPlayer->drawTile(new Tile(*tileBag->getTile(0)));
+                                    if(tileBag->getNumOfTiles() != 0){
+                                        currentPlayer->drawTile(new Tile(*tileBag->getTile(0)));
+                                    }
                                 }
                             }
                             check = true;
@@ -560,14 +563,14 @@ void GameEngine::endGame(){
     Player* winner = nullptr;
     for(Player * player : players){
         int score = player->getScore();
-        std::cout << "Score for " << player->getName() << ": " << score;
+        std::cout << "Score for " << player->getName() << ": " << score << std::endl;
         if(score > max){
             max = score;
             winner = player;
         }
     }
     //only if the score is higher than max score will it be kept, therefore if the two players achieve the same score, the first one is the winner
-    std::cout << "Player " << winner->getName() << " won!";
+    std::cout << "Player " << winner->getName() << " won!" << std::endl;
     quit();
 }
 void GameEngine::quit(){
