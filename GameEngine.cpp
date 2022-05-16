@@ -27,16 +27,19 @@ void GameEngine::setupGame(){
 
 void GameEngine::newGame(){
     bool gameover = false;
+    bool centre = false;
     while(!gameover){
+    //check if it is the first hand by check if the centre is occupied, first if to prevent calling getSquare every single round
+    if(!centre){
+        if(isupper(board->getSquare(8,8))){
+            centre = true;
+        }
+    }
     Player* currentPlayer = players[currentPlayerIndex];
     std::cout<<currentPlayer->getName()<<", it's your turn" << std::endl;
     for(Player* player : players){
         std::cout<<"Score for " << player->getName() << ": " << player->getScore() << std::endl;
     }
-    Tile* test = new Tile();
-    test->letter = 'Q';
-    board->placeTile(test,8,8);
-    
     std::cout << board->printBoard();
     std::cout << "Your hand is\n" << currentPlayer->getHand()->printHand();
     std::string input = "";
@@ -116,18 +119,23 @@ void GameEngine::newGame(){
                                     std::cout << "length is 4!\n";
                                     col = 10*(s.at(2)-'0') + (s.at(3) - '0');
                                 }
-                                std::cout << tile->letter << ":" << row <<","<<col<<std::endl;
                                 //check if the current tile exists, and if that location is empty and
                                 if(tempCopyHand->hasTile(tile) && board->getSquare(row,col) == ' '){
-                                    //check if the tile placed has other tiles around it, place it, put the coordinates in the vector
-                                    if(isupper(board->getSquare(row+1,col))|| isupper(board->getSquare(row-1,col)) || isupper(board->getSquare(row,col+1)) || isupper(board->getSquare(row,col-1))){
+                                    if(centre){
+                                        //if the centre is occupied, check if the tile has other tiles around it
+                                        if(isupper(board->getSquare(row+1,col))|| isupper(board->getSquare(row-1,col)) || isupper(board->getSquare(row,col+1)) || isupper(board->getSquare(row,col-1))){
+                                            legal = true;
+                                        }else{
+                                            legal = false;
+                                        }
+                                    }
+                                    //if the tile's position is legal, try put it on the board
+                                    if(legal){
                                         board->placeTile(tile,row,col);
                                         tempCopyHand->delTile(tile);
                                         rows.push_back(row);
                                         cols.push_back(col);
                                         tiles.push_back(tile);
-                                    }else{
-                                        legal = false;
                                     }
                                 }else{
                                     legal = false;

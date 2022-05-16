@@ -51,7 +51,7 @@ void Menu::run(){
             std::cout<< "Enter the filename from which load a game" << std::endl;
             std::cout << "> ";
             std::string fileName = "";
-            std::cin >> fileName;
+            std::getline(std::cin, fileName);
             if(gameEngine->loadGame(fileName)){
                 gameEngine->newGame();
             }
