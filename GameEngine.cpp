@@ -431,7 +431,7 @@ void GameEngine::saveGame(std::string fileName){
             file << player->getHand()->printHand();
         }
         
-        file<< board->printBoard();
+        file << board->printBoard();
         file << tileBag->printTileBag();
         file << players[currentPlayerIndex]->getName() << std::endl;
         std::cout << "Game saved successfully!" << std::endl;
@@ -556,6 +556,7 @@ bool GameEngine::loadGame(std::string fileName){
             }
             file.close();
             check = true;
+            std::cout << "Scrabble Game loaded successfully!" << std::endl;
         }
     } catch (const std::exception &e) {
         std::cout << "Incorrect file format!" << std::endl;

@@ -7,25 +7,7 @@ Menu
 3. Credits (Show student information)
 4. Quit
 > Enter the filename from which load a game
-> Tilebag loaded:Z-10
-
-     0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
-   -------------------------------------------------------------
-A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-C  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-H  |   |   |   |   |   |   |   | Z |   |   |   |   |   |   |   |
-I  |   |   |   |   |   |   |   | H | Q | A |   |   |   |   |   |
-J  |   |   |   |   |   |   |   |   | O |   |   |   |   |   |   |
-K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+> Scrabble Game loaded successfully!
 AAA, it's your turn
 Score for AAA: 100
 Score for BBB: 1
