@@ -24,7 +24,6 @@ std::string Board::printBoard(){
         char add = 'A'+i;
         boardStatus += add;
         boardStatus += "  |";
-        //string.append(char)
         for(int j = 0; j < DEFAULT_DIMENSION; ++j){
             Tile* tile = board[i][j];
             if(tile == nullptr){
@@ -43,7 +42,7 @@ std::string Board::printBoard(){
 
 char Board::getSquare(int row, int col){
     Letter letter = ' ';
-    if(row < 0 || col < 0 || row == DEFAULT_DIMENSION || col == DEFAULT_DIMENSION){
+    if(row < 0 || col < 0 || row > DEFAULT_DIMENSION-1 || col > DEFAULT_DIMENSION-1){
         letter = '?';
     }
     else if(board[row][col] != nullptr){

@@ -72,7 +72,7 @@ std::string TileBag::printTileBag(){
       tileBagString += tile->letter;
       tileBagString += "-";
       tileBagString += std::to_string(tile->value);
-      if(i != tileBag->getSize()){
+      if(i < tileBag->getSize()-1){
          tileBagString += ",";
       }
    }

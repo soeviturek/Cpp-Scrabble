@@ -25,8 +25,6 @@ bool Player::replaceTile(Tile* tile, Tile* replacement){
     if(check){
         hand->addTile(replacement);
     }
-    
-
     return check;
 
 }
@@ -67,7 +65,11 @@ void Player::loadHand(std::string handString){
         if (c == ','){
             Tile* tile = new Tile();
             tile->letter = temp.at(0);
-            tile->value = temp.at(2) - '0';
+            if(temp.length() == 3){
+                tile->value = temp.at(2) - '0';
+            }else if(temp.length() == 4){
+                tile->value = 10*(temp.at(2) - '0') + (temp.at(3) - '0');
+            }
             this->getHand()->addTile(tile);
             temp = "";
         } else {
@@ -76,7 +78,11 @@ void Player::loadHand(std::string handString){
     }
     Tile* tile = new Tile();
     tile->letter = temp.at(0);
-    tile->value = temp.at(2) - '0';
+    if(temp.length() == 3){
+        tile->value = temp.at(2) - '0';
+    }else if(temp.length() == 4){
+        tile->value = 10*(temp.at(2) - '0') + (temp.at(3) - '0');
+    }
     this->getHand()->addTile(tile);
 }
 

@@ -29,11 +29,11 @@ void GameEngine::newGame(){
     bool gameover = false;
     bool centre = false;
     while(!gameover){
-    //check if it is the first hand by check if the centre is occupied, first if to prevent calling getSquare every single round
-    if(!centre){
-        if(isupper(board->getSquare(8,8))){
-            centre = true;
-        }
+    //check if centre is occupied
+    if(isupper(board->getSquare(8,8))){
+        centre = true;
+    }else{
+        centre = false;
     }
     Player* currentPlayer = players[currentPlayerIndex];
     std::cout<<currentPlayer->getName()<<", it's your turn" << std::endl;
@@ -43,6 +43,7 @@ void GameEngine::newGame(){
     std::cout << board->printBoard();
     std::cout << "Your hand is\n" << currentPlayer->getHand()->printHand();
     std::string input = "";
+    //used to check if the input is correct
     bool check = false;
 
     //to store all the placed tiles in this round
@@ -63,7 +64,7 @@ void GameEngine::newGame(){
      * bad examples: place A at 1, place A, place A at J
      */
     while (!check){
-        //bool for checking if player's action is legal or not
+        //bool for checking if player's placing is legal or not
         bool legal = true;
         std::cin.clear();
         std::vector<char> tokens;
@@ -110,28 +111,29 @@ void GameEngine::newGame(){
                                 int row = convertLetterToNum(s[1]);
                                 int col = 0;
                                 //if col is one digit e.g LA1
-                                std::cout << s << std::endl;
                                 if(s.size() == 3){
                                     col = s.at(2) - '0';
                                 }
                                 //if col is two digits e.g LA10
                                 else if(s.size() == 4){
-                                    std::cout << "length is 4!\n";
                                     col = 10*(s.at(2)-'0') + (s.at(3) - '0');
                                 }
                                 //check if the current tile exists, and if that location is empty and
-                                if(tempCopyHand->hasTile(tile) && board->getSquare(row,col) == ' '){
-                                    //check if centre is occupied
-                                    if(centre){
-                                        //if the centre is occupied, check if the tile has other tiles around it
-                                        if(isupper(board->getSquare(row+1,col))|| isupper(board->getSquare(row-1,col)) || isupper(board->getSquare(row,col+1)) || isupper(board->getSquare(row,col-1))){
-                                            legal = true;
-                                        }else{
-                                            legal = false;
-                                        }
+                                if(!centre && tempCopyHand->hasTile(tile)){
+                                    if(row == 7 && col == 7){
+                                        board->placeTile(tile,row,col);
+                                        tempCopyHand->delTile(tile);
+                                        rows.push_back(row);
+                                        cols.push_back(col);
+                                        tiles.push_back(tile);
+                                        centre = true;
+                                    }else{
+                                        std::cout<<"Place at the centre square H7!\n";
                                     }
-                                    //if the tile's position is legal, try put it on the board
-                                    if(legal){
+                                }
+                                else if(tempCopyHand->hasTile(tile) && board->getSquare(row,col)==' '){
+                                    //if the centre is occupied, check if the tile has other tiles around it
+                                    if(isupper(board->getSquare(row+1,col))|| isupper(board->getSquare(row-1,col)) || isupper(board->getSquare(row,col+1)) || isupper(board->getSquare(row,col-1))){
                                         board->placeTile(tile,row,col);
                                         tempCopyHand->delTile(tile);
                                         rows.push_back(row);
@@ -139,13 +141,12 @@ void GameEngine::newGame(){
                                         tiles.push_back(tile);
                                     }
                                 }else{
-                                    legal = false;
+                                    legal = false;                          
                                 }
                             }
                         }
                         //check if tiles are on the same row
                         if(legal){
-                            std::cout<<"check if on the same row or col\n";
                             int rowCompare = rows[0];
                             bool sameRow = true;
                             int colCompare = cols[0];
@@ -160,13 +161,13 @@ void GameEngine::newGame(){
                                     sameCol = false;
                                 }
                             }
-                            std::cout << "finish checking\n";
                             if(sameRow || sameCol){
-                                std::cout<<"all legal! place tiles\n";
                                 for(Tile* tile : tiles){
                                     currentPlayer->placeTile(tile);
+                                    //check if there is still tiles left in tilebag, if no, do not draw tile
                                     if(tileBag->getNumOfTiles() != 0){
                                         currentPlayer->drawTile(new Tile(*tileBag->getTile(0)));
+                                        tileBag->removeFront();
                                     }
                                 }
                             }
@@ -176,6 +177,8 @@ void GameEngine::newGame(){
                                 add = calculateScore(rows, cols, 0);
                             }else if(sameCol){
                                 add = calculateScore(rows, cols, 1);
+                            }else{
+                                std::cout<<"not same row or same col\n";
                             }
                             if(tiles.size() == MAX_HAND_SIZE){
                                 std::cout << "BINGO!" << std::endl;
@@ -185,7 +188,6 @@ void GameEngine::newGame(){
                             currentPlayer->setScore(finalScore);
                         }else{
                             std::cout << "illegal, cannot place tiles\n";
-
                             int index = 0;
                             placedTiles.clear();
                             for(int row: rows){
@@ -237,6 +239,7 @@ void GameEngine::newGame(){
                     std::cout << "Wrong format!\n";
                 }
             }else{
+                placedTiles.clear();
                 std::cout << "Wrong format!\n";
             }
         }else if(input.find("pass") != std::string::npos){
@@ -268,6 +271,7 @@ void GameEngine::newGame(){
     gameover = gameOver();
     //switch to next player's round
     switchPlayer();
+    delete tempCopyHand;
     }
     //game ends
     endGame();
@@ -404,6 +408,7 @@ bool GameEngine::replaceTile(Tile* tile){
             std::cout << "That tile is not in player's hand!" << std::endl;
         }else{
             check = true;
+            tileBag->removeFront();
         }
     }else{
         std::cout << "No tile in the bag, cannot replace!"<< std::endl;
@@ -520,12 +525,27 @@ bool GameEngine::loadGame(std::string fileName){
                     Tile* tile = new Tile();
                     tile->letter = temp.at(0);
                     //convert char to int
-                    tile->value = temp.at(2) - '0';
+                    if(temp.length() == 3){
+                        tile->value = temp.at(2) - '0';
+                    }else if(temp.length() == 4){
+                        tile->value = 10*(temp.at(2) - '0') + (temp.at(3) - '0');
+                    }
                     tileBag->addTile(tile);
                     temp = "";
                 }else{
                     temp.push_back(c);
                 }
+            }
+            if(temp != ""){
+                Tile* tile = new Tile();
+                tile->letter = temp.at(0);
+                if(temp.length() == 3){
+                    tile->value = temp.at(2) - '0';
+                }else if(temp.length() == 4){
+                    tile->value = 10*(temp.at(2) - '0') + (temp.at(3) - '0');
+                }
+                tileBag->addTile(tile);
+                temp = "";
             }
 
 
@@ -536,6 +556,11 @@ bool GameEngine::loadGame(std::string fileName){
             }
             file.close();
             check = true;
+
+
+            //test
+            std::cout<<"Tilebag loaded:" << tileBag->printTileBag() <<"\n";
+            std::cout << board->printBoard();
         }
     } catch (const std::exception &e) {
         std::cout << "Incorrect file format!" << std::endl;
