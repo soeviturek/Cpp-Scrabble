@@ -25,6 +25,7 @@ void Menu::run(){
         } 
         else if(input == newGame){
             std::cout<< "Starting a New Name" << std::endl;
+            //enter loop and get names for 2 players
             for(int i = 0; i < 2;++i){
                 std::cout<< "Enter name for player "<< i+1<<":\n";
                 bool check = false;
@@ -62,6 +63,7 @@ void Menu::run(){
             std::cout << "Email: s3776244@student.rmit.edu.au" << std::endl;
         }
         else if(input == quit){
+            //quit
             gameEngine->quit();
         }
         else{
