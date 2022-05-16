@@ -556,11 +556,6 @@ bool GameEngine::loadGame(std::string fileName){
             }
             file.close();
             check = true;
-
-
-            //test
-            std::cout<<"Tilebag loaded:" << tileBag->printTileBag() <<"\n";
-            std::cout << board->printBoard();
         }
     } catch (const std::exception &e) {
         std::cout << "Incorrect file format!" << std::endl;
