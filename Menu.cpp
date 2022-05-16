@@ -61,6 +61,9 @@ void Menu::run(){
             std::cout << "Name: Yuchen Wu" << std::endl;
             std::cout << "Student ID: S3776244" << std::endl;
             std::cout << "Email: s3776244@student.rmit.edu.au" << std::endl;
+            std::cout << "Name: Runsheng Gao" << std::endl;
+            std::cout << "Student ID: S3845773" << std::endl;
+            std::cout << "Email: s3845773@student.rmit.edu.au" << std::endl;
         }
         else if(input == quit){
             //quit
