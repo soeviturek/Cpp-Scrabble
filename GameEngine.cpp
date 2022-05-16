@@ -66,6 +66,9 @@ void GameEngine::newGame(){
         std::vector<char> tokens;
         std::cout << "> ";
         std::getline(std::cin, input);
+        if(input == "quit"){
+            quit();
+        }
         if(input.find("replace") != std::string::npos){
             input.erase(0,7);
             for(char c : input){
