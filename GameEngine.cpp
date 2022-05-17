@@ -306,17 +306,6 @@ void GameEngine::switchPlayer(){
 int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int direction){
     int score = 0;
     Tile* temp = new Tile();
-    int index = 0;
-    //get the score for all the tiles placed in this round!!!
-    for(int row : rows){
-        score += temp->getValue(board->getSquare(row,cols[index]));
-        index++;
-    }
-    //for each tile coordinates, check it's direction based on vertical/horizontal!
-    //put the 
-
-
-
     int row = rows[0];
     int col = cols[0];
     //if the word is horizontal,0 = horizontal!!
