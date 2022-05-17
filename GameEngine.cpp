@@ -391,23 +391,24 @@ int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int 
             int cindex = 0;
             for(int row : rows){
                 int cc = cols[cindex];
-                while(isupper(board->getSquare(row,cc))){
-                    std::pair<int,int> coords(row,cc);
+                int rr = row;
+                while(isupper(board->getSquare(rr,cc))){
+                    std::pair<int,int> coords(rr,cc);
                     std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
                     if(it == checkedCoords.end()){
-                        score +=temp->getValue(board->getSquare(row,cc));
+                        score +=temp->getValue(board->getSquare(rr,cc));
                         checkedCoords.insert(coords);
                     }
-                    cc++;  
+                    rr++;  
                 }
-                while(isupper(board->getSquare(row,cc))){
-                    std::pair<int,int> coords(row,cc);
+                while(isupper(board->getSquare(rr,cc))){
+                    std::pair<int,int> coords(rr,cc);
                     std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
                     if(it == checkedCoords.end()){
-                        score +=temp->getValue(board->getSquare(row,cc));
+                        score +=temp->getValue(board->getSquare(rr,cc));
                         checkedCoords.insert(coords);
                     }
-                    cc--;  
+                    rr--;  
                 }
                 cindex++;
             }
