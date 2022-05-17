@@ -9,6 +9,7 @@
 #include "Board.h"
 #include <vector>
 #include <fstream>
+#include <set>
 
 class GameEngine{
     public:

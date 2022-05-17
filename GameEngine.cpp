@@ -305,106 +305,115 @@ void GameEngine::switchPlayer(){
 
 int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int direction){
     int score = 0;
+    std::set<std::pair<int,int>> checkedCoords;
     Tile* temp = new Tile();
-    int row = rows[0];
-    int col = cols[0];
-    //if the word is horizontal,0 = horizontal!!
-    if(direction == 0){
-        bool check = true;
-        while(check){
-            if(isupper(board->getSquare(row,col))){
-                score += temp->getValue(board->getSquare(row,col));
-                col--;
-            }else{
-                check = false;
-            }
+    int colIndex = 0;
+    for(int row: rows){
+        std::pair<int,int> coords(row,cols[colIndex]);
+        std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+        if(it == checkedCoords.end()){
+            score +=temp->getValue(board->getSquare(row,cols[colIndex]));
+            checkedCoords.insert(coords);
         }
-        row = rows[0];
-        col = cols[0];
-        //do not calculate the original spot twice!
-        col++;
-        check = true;
-        while(check){
-            if(isupper(board->getSquare(row,col))){
-                score += temp->getValue(board->getSquare(row,col));
-                col++;
-            }else{
-                check = false;
-            }
-        }
-        row = rows[0];
-        col = cols[0];
-        //check vertical direction
-        for(int row : rows){
-            check = true;
-            while(check){
-                if(isupper(board->getSquare(row,col))){
-                score += temp->getValue(board->getSquare(row,col));
-                col++;
-                }else{
-                    check = false;
+        //if horizontal
+        if(direction == 0){
+            int r = row;
+            int c = cols[colIndex];
+            //go left
+            while(isupper(board->getSquare(r,c))){
+                std::pair<int,int> coords(r,c);
+                std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+                if(it == checkedCoords.end()){
+                    score +=temp->getValue(board->getSquare(r,c));
+                    checkedCoords.insert(coords);
                 }
+                c--;
             }
-            row = rows[0];
-            col = cols[0];
-            check = true;
-            while(check){
-                if(isupper(board->getSquare(row,col))){
-                score += temp->getValue(board->getSquare(row,col));
-                col--;
-                }else{
-                    check = false;
+            //go right
+            while(isupper(board->getSquare(r,c))){
+                std::pair<int,int> coords(r,c);
+                std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+                if(it == checkedCoords.end()){
+                    score +=temp->getValue(board->getSquare(r,c));
+                    checkedCoords.insert(coords);
                 }
+                c++;
             }
-        }
-    }
-    else if(direction == 1){
-        //if the word is vertical
-        bool check = true;
-        while(check){
-            if(isupper(board->getSquare(row,col))){
-                score += temp->getValue(board->getSquare(row,col));
-                col--;
-            }else{
-                check = false;
-            }
-        }
-        row = rows[0];
-        col = cols[0];
-        check = true;
-        while(check){
-            if(isupper(board->getSquare(row,col))){
-                score += temp->getValue(board->getSquare(row,col));
-                col++;
-            }else{
-                check = false;
-            }
-        }
-        row = rows[0];
-        col = cols[0];
-        //check horizontal direction
-        for(int row : rows){
-            check = true;
-            while(check){
-                if(isupper(board->getSquare(row,col))){
-                score += temp->getValue(board->getSquare(row,col));
-                row++;
-                }else{
-                    check = false;
+            //check each tile vertical direction
+            int cindex = 0;
+            for(int row : rows){
+                int cc = cols[cindex];
+                while(isupper(board->getSquare(row,cc))){
+                    std::pair<int,int> coords(row,cc);
+                    std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+                    if(it == checkedCoords.end()){
+                        score +=temp->getValue(board->getSquare(row,cc));
+                        checkedCoords.insert(coords);
+                    }
+                    cc++;  
                 }
-            }
-            row = rows[0];
-            col = cols[0];
-            check = true;
-            while(check){
-                if(isupper(board->getSquare(row,col))){
-                score += temp->getValue(board->getSquare(row,col));
-                row--;
-                }else{
-                    check = false;
+                while(isupper(board->getSquare(row,cc))){
+                    std::pair<int,int> coords(row,cc);
+                    std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+                    if(it == checkedCoords.end()){
+                        score +=temp->getValue(board->getSquare(row,cc));
+                        checkedCoords.insert(coords);
+                    }
+                    cc--;  
                 }
+                cindex++;
             }
         }
+        //if vertical
+        else if(direction == 1){
+            int r = row;
+            int c = cols[colIndex];
+            //go left
+            while(isupper(board->getSquare(r,c))){
+                std::pair<int,int> coords(row,cols[colIndex]);
+                std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+                if(it == checkedCoords.end()){
+                    score +=temp->getValue(board->getSquare(r,c));
+                    checkedCoords.insert(coords);
+                }
+                r++;
+            }
+            //go right
+            while(isupper(board->getSquare(r,c))){
+                std::pair<int,int> coords(row,cols[colIndex]);
+                std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+                if(it == checkedCoords.end()){
+                    score +=temp->getValue(board->getSquare(r,c));
+                    checkedCoords.insert(coords);
+                }
+                r--;
+            }
+            int cindex = 0;
+            for(int row : rows){
+                int cc = cols[cindex];
+                while(isupper(board->getSquare(row,cc))){
+                    std::pair<int,int> coords(row,cc);
+                    std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+                    if(it == checkedCoords.end()){
+                        score +=temp->getValue(board->getSquare(row,cc));
+                        checkedCoords.insert(coords);
+                    }
+                    cc++;  
+                }
+                while(isupper(board->getSquare(row,cc))){
+                    std::pair<int,int> coords(row,cc);
+                    std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+                    if(it == checkedCoords.end()){
+                        score +=temp->getValue(board->getSquare(row,cc));
+                        checkedCoords.insert(coords);
+                    }
+                    cc--;  
+                }
+                cindex++;
+            }
+        }
+
+        colIndex++;
     }
     delete temp;
     return score;
@@ -412,8 +421,8 @@ int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int 
 bool GameEngine::replaceTile(Tile* tile){
     bool check = false;
     Tile* tileToBag = new Tile(*tile);
-    Tile* replacement = new Tile(*tileBag->getTile(0));
     if(tileBag->getNumOfTiles() > 0){
+        Tile* replacement = new Tile(*tileBag->getTile(0));
         if(!players[currentPlayerIndex]->replaceTile(tile, replacement)){
             std::cout << "That tile is not in player's hand!" << std::endl;
             delete tileToBag;
