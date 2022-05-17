@@ -306,6 +306,17 @@ void GameEngine::switchPlayer(){
 int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int direction){
     int score = 0;
     Tile* temp = new Tile();
+    int index = 0;
+    //get the score for all the tiles placed in this round!!!
+    for(int row : rows){
+        score += temp->getValue(board->getSquare(row,cols[index]));
+        index++;
+    }
+    //for each tile coordinates, check it's direction based on vertical/horizontal!
+    //put the 
+
+
+
     int row = rows[0];
     int col = cols[0];
     //if the word is horizontal,0 = horizontal!!
@@ -411,12 +422,16 @@ int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int 
 }
 bool GameEngine::replaceTile(Tile* tile){
     bool check = false;
+    Tile* tileToBag = new Tile(*tile);
+    Tile* replacement = new Tile(*tileBag->getTile(0));
     if(tileBag->getNumOfTiles() > 0){
-        tileBag->addTile(tile);
-        if(!players[currentPlayerIndex]->replaceTile(tile, tileBag->getTile(0))){
+        if(!players[currentPlayerIndex]->replaceTile(tile, replacement)){
             std::cout << "That tile is not in player's hand!" << std::endl;
+            delete tileToBag;
+            delete replacement;
         }else{
             check = true;
+            tileBag->addTile(tileToBag);
             tileBag->removeFront();
         }
     }else{
