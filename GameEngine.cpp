@@ -368,7 +368,7 @@ int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int 
         else if(direction == 1){
             int r = row;
             int c = cols[colIndex];
-            //go left
+            //go down
             while(isupper(board->getSquare(r,c))){
                 std::pair<int,int> coords(row,cols[colIndex]);
                 std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
@@ -378,7 +378,7 @@ int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int 
                 }
                 r++;
             }
-            //go right
+            //go up
             while(isupper(board->getSquare(r,c))){
                 std::pair<int,int> coords(row,cols[colIndex]);
                 std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
@@ -388,6 +388,7 @@ int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int 
                 }
                 r--;
             }
+            //check horizontal
             int cindex = 0;
             for(int row : rows){
                 int cc = cols[cindex];
