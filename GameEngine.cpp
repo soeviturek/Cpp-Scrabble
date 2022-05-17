@@ -30,7 +30,7 @@ void GameEngine::newGame(){
     bool centre = false;
     while(!gameover){
     //check if centre is occupied
-    if(isupper(board->getSquare(8,8))){
+    if(isupper(board->getSquare(7,7))){
         centre = true;
     }else{
         centre = false;
@@ -129,6 +129,7 @@ void GameEngine::newGame(){
                                         centre = true;
                                     }else{
                                         std::cout<<"Place at the centre square H7!\n";
+                                        legal = false;
                                     }
                                 }
                                 else if(tempCopyHand->hasTile(tile) && board->getSquare(row,col)==' '){
