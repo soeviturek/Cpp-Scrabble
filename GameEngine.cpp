@@ -309,112 +309,57 @@ int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int 
     Tile* temp = new Tile();
     int colIndex = 0;
     for(int row: rows){
-        std::pair<int,int> coords(row,cols[colIndex]);
-        std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
-        if(it == checkedCoords.end()){
-            score +=temp->getValue(board->getSquare(row,cols[colIndex]));
-            checkedCoords.insert(coords);
+        int r = row;
+        int c = cols[colIndex];
+        //the position we are checking now is (r,c)
+        // check horizontal and vertical direction until we meet a space!
+        //horizontal
+        while(isupper(board->getSquare(r,c))){
+            std::pair<int,int> coords(r,c);
+            std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+            //check if the current position is already checked
+            if(it == checkedCoords.end()){
+                score +=temp->getValue(board->getSquare(r,c));
+                checkedCoords.insert(coords);
+            }
+            r++;
         }
-        //if horizontal
-        if(direction == 0){
-            int r = row;
-            int c = cols[colIndex];
-            //go left
-            while(isupper(board->getSquare(r,c))){
-                std::pair<int,int> coords(r,c);
-                std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
-                if(it == checkedCoords.end()){
-                    score +=temp->getValue(board->getSquare(r,c));
-                    checkedCoords.insert(coords);
-                }
-                c--;
+        r = row;
+        c = cols[colIndex];
+        while(isupper(board->getSquare(r,c))){
+            std::pair<int,int> coords(r,c);
+            std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+            if(it == checkedCoords.end()){
+                score +=temp->getValue(board->getSquare(r,c));
+                checkedCoords.insert(coords);
             }
-            //go right
-            while(isupper(board->getSquare(r,c))){
-                std::pair<int,int> coords(r,c);
-                std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
-                if(it == checkedCoords.end()){
-                    score +=temp->getValue(board->getSquare(r,c));
-                    checkedCoords.insert(coords);
-                }
-                c++;
-            }
-            //check each tile vertical direction
-            int cindex = 0;
-            for(int row : rows){
-                int cc = cols[cindex];
-                while(isupper(board->getSquare(row,cc))){
-                    std::pair<int,int> coords(row,cc);
-                    std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
-                    if(it == checkedCoords.end()){
-                        score +=temp->getValue(board->getSquare(row,cc));
-                        checkedCoords.insert(coords);
-                    }
-                    cc++;  
-                }
-                while(isupper(board->getSquare(row,cc))){
-                    std::pair<int,int> coords(row,cc);
-                    std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
-                    if(it == checkedCoords.end()){
-                        score +=temp->getValue(board->getSquare(row,cc));
-                        checkedCoords.insert(coords);
-                    }
-                    cc--;  
-                }
-                cindex++;
-            }
-        }
-        //if vertical
-        else if(direction == 1){
-            int r = row;
-            int c = cols[colIndex];
-            //go down
-            while(isupper(board->getSquare(r,c))){
-                std::pair<int,int> coords(row,cols[colIndex]);
-                std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
-                if(it == checkedCoords.end()){
-                    score +=temp->getValue(board->getSquare(r,c));
-                    checkedCoords.insert(coords);
-                }
-                r++;
-            }
-            //go up
-            while(isupper(board->getSquare(r,c))){
-                std::pair<int,int> coords(row,cols[colIndex]);
-                std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
-                if(it == checkedCoords.end()){
-                    score +=temp->getValue(board->getSquare(r,c));
-                    checkedCoords.insert(coords);
-                }
-                r--;
-            }
-            //check horizontal
-            int cindex = 0;
-            for(int row : rows){
-                int cc = cols[cindex];
-                int rr = row;
-                while(isupper(board->getSquare(rr,cc))){
-                    std::pair<int,int> coords(rr,cc);
-                    std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
-                    if(it == checkedCoords.end()){
-                        score +=temp->getValue(board->getSquare(rr,cc));
-                        checkedCoords.insert(coords);
-                    }
-                    rr++;  
-                }
-                while(isupper(board->getSquare(rr,cc))){
-                    std::pair<int,int> coords(rr,cc);
-                    std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
-                    if(it == checkedCoords.end()){
-                        score +=temp->getValue(board->getSquare(rr,cc));
-                        checkedCoords.insert(coords);
-                    }
-                    rr--;  
-                }
-                cindex++;
-            }
+            r--;
         }
 
+        //vertical
+        r = row;
+        c = cols[colIndex];
+        while(isupper(board->getSquare(r,c))){
+            std::pair<int,int> coords(r,c);
+            std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+            if(it == checkedCoords.end()){
+                score +=temp->getValue(board->getSquare(r,c));
+                checkedCoords.insert(coords);
+            }
+            c++;
+        }
+        r = row;
+        c = cols[colIndex];
+        while(isupper(board->getSquare(r,c))){
+            std::pair<int,int> coords(r,c);
+            std::set<std::pair<int,int>>::iterator it = checkedCoords.find(coords);
+            if(it == checkedCoords.end()){
+                score +=temp->getValue(board->getSquare(r,c));
+                checkedCoords.insert(coords);
+            }
+            c--;
+        }
+        //go to check next placed tile!
         colIndex++;
     }
     delete temp;
