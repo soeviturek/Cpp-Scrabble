@@ -6,11 +6,13 @@ Menu
 2. Load Game
 3. Credits (Show student information)
 4. Quit
-> Enter the filename from which load a game
-> Scrabble Game loaded successfully!
-AAA, it's your turn
-Score for AAA: 100
-Score for BBB: 1
+> Starting a New Name
+Enter name for player 1:
+> Enter name for player 2:
+> Let's Play!
+A, it's your turn
+Score for A: 0
+Score for B: 0
      0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
    -------------------------------------------------------------
 A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
@@ -20,19 +22,21 @@ D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-H  |   |   |   |   |   |   |   | Z |   |   |   |   |   |   |   |
-I  |   |   |   |   |   |   |   | H | Q | A |   |   |   |   |   |
-J  |   |   |   |   |   |   |   |   | O |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 Your hand is
-A-1
-> > BBB, it's your turn
-Score for AAA: 106
-Score for BBB: 1
+F-4,T-1,E-1,J-8,A-1,M-3,O-1
+> > Place at the centre square H7!
+illegal, cannot place tiles
+> > B, it's your turn
+Score for A: 4
+Score for B: 0
      0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
    -------------------------------------------------------------
 A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
@@ -42,40 +46,14 @@ D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-H  |   |   |   |   |   |   |   | Z |   |   |   |   |   |   |   |
-I  |   |   |   |   |   |   |   | H | Q | A |   |   |   |   |   |
-J  |   |   |   |   |   |   |   |   | O | A |   |   |   |   |   |
+H  |   |   |   |   |   |   |   | A |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 Your hand is
-E-1,R-1,V-4,W-4,W-4,I-1,O-1
-> AAA, it's your turn
-Score for AAA: 106
-Score for BBB: 1
-     0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
-   -------------------------------------------------------------
-A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-C  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-H  |   |   |   |   |   |   |   | Z |   |   |   |   |   |   |   |
-I  |   |   |   |   |   |   |   | H | Q | A |   |   |   |   |   |
-J  |   |   |   |   |   |   |   |   | O | A |   |   |   |   |   |
-K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-Your hand is
-Z-10
-> > Game over
-Score for AAA: 148
-Score for BBB: 1
-Player AAA won!
-Goodbye
+S-1,E-1,W-4,H-4,E-1,L-1,O-1
+> Goodbye

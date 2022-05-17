@@ -104,6 +104,7 @@ void GameEngine::newGame(){
                     //check and make sure there is something to place!!
                     if(placedTiles.size() > 0){
                         for(std::string s : placedTiles){
+                            std::cout << s<<"\n";
                             if(legal){
                                 Tile* tile = new Tile();
                                 tile->letter = s.at(0);
@@ -118,8 +119,10 @@ void GameEngine::newGame(){
                                 else if(s.size() == 4){
                                     col = 10*(s.at(2)-'0') + (s.at(3) - '0');
                                 }
+                                std::cout << row << "," << col<<"\n";
                                 //check if the current tile exists, and if that location is empty and
                                 if(!centre && tempCopyHand->hasTile(tile)){
+                                    std::cout << "centre not occupied\n";
                                     if(row == 7 && col == 7){
                                         board->placeTile(tile,row,col);
                                         tempCopyHand->delTile(tile);
@@ -140,9 +143,12 @@ void GameEngine::newGame(){
                                         rows.push_back(row);
                                         cols.push_back(col);
                                         tiles.push_back(tile);
+                                    }else{
+                                        legal = false;
                                     }
                                 }else{
-                                    legal = false;                          
+                                    legal = false;
+                                    std::cout <<"wrong!shabi!\n";                  
                                 }
                             }
                         }
@@ -178,8 +184,6 @@ void GameEngine::newGame(){
                                 add = calculateScore(rows, cols, 0);
                             }else if(sameCol){
                                 add = calculateScore(rows, cols, 1);
-                            }else{
-                                std::cout<<"not same row or same col\n";
                             }
                             if(tiles.size() == MAX_HAND_SIZE){
                                 std::cout << "BINGO!" << std::endl;
@@ -188,11 +192,13 @@ void GameEngine::newGame(){
                             int finalScore = add + currentPlayer->getScore();
                             currentPlayer->setScore(finalScore);
                         }else{
-                            std::cout << "illegal, cannot place tiles\n";
+                            std::cout << "Illegal, cannot place tiles\n";
+                            //reverse placed square onboard
                             int index = 0;
                             placedTiles.clear();
                             for(int row: rows){
-                                board->placeTile(nullptr,row,cols[0]);
+                                board->placeTile(nullptr,row,cols[index]);
+                                std::cout<<"reverse: " << row <<"," <<cols[index]<<"\n";
                                 index++;
                             }
                             rows.clear();
@@ -302,24 +308,26 @@ int GameEngine::calculateScore(std::vector<int> rows,std::vector<int> cols, int 
     Tile* temp = new Tile();
     int row = rows[0];
     int col = cols[0];
-    //if the word is horizontal
+    //if the word is horizontal,0 = horizontal!!
     if(direction == 0){
         bool check = true;
         while(check){
             if(isupper(board->getSquare(row,col))){
                 score += temp->getValue(board->getSquare(row,col));
-                row--;
+                col--;
             }else{
                 check = false;
             }
         }
         row = rows[0];
         col = cols[0];
+        //do not calculate the original spot twice!
+        col++;
         check = true;
         while(check){
             if(isupper(board->getSquare(row,col))){
                 score += temp->getValue(board->getSquare(row,col));
-                row++;
+                col++;
             }else{
                 check = false;
             }

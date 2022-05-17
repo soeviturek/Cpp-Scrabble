@@ -1,0 +1,10 @@
+1
+A
+B
+place A at H6
+place DONE
+place A at H7
+place DONE
+quit
+
+//test for checking if the first placement is at the centre of the board!
