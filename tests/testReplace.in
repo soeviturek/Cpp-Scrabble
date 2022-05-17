@@ -1,0 +1,9 @@
+2
+tests/testgame
+place L at H7
+place DONE
+place N at H8
+place DONE
+replace S
+pass
+quit

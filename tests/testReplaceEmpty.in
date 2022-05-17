@@ -1,0 +1,7 @@
+2
+tests/testReplaceEmpty.txt
+place L at H7
+place DONE
+pass
+replace Q
+quit
